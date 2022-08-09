@@ -5,6 +5,7 @@ import { AppFrame, AuthFrame } from "./components/templates";
 import {
   Analytics,
   AddUser,
+  AllUsers,
   Dashboard,
   EditUser,
   Login,
@@ -23,8 +24,9 @@ function App() {
             <Route index element={<Dashboard />} />
             <Route path="analytics" element={<Analytics />} />
             <Route path="users" element={<Users />}>
-              <Route path="create" element={<AddUser />} />
-              <Route path="edit/:id" element={<EditUser />} />
+              <Route index element={<AllUsers />} />
+              <Route path="add" element={<AddUser />} />
+              <Route path=":id" element={<EditUser />} />
             </Route>
             <Route path="retribusi" element={<Retributions />} />
           </Route>

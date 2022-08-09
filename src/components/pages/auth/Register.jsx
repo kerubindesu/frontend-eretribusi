@@ -44,7 +44,7 @@ const Register = () => {
         <Button
           type={"submit"}
           variant={"mt-2 bg-sky-600 hover:bg-sky-500 text-white"}
-          name={"Register"}
+          text={"Register"}
         />
       </form>
     </>

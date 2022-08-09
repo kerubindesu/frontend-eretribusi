@@ -3,6 +3,7 @@ import ScrollReveal from "scrollreveal";
 import { Image } from "../atoms";
 import Logo from "../../../assets/images";
 import { NavbarMenu } from "../molecules";
+import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   useEffect(() => {
@@ -23,10 +24,12 @@ const Sidebar = () => {
         {/* Top */}
         <div className="w-full flex flex-col gap-6">
           {/* Logo */}
-          <div className="w-full flex items-center justify-start gap-2 text-xl text-slate-600">
-            <Image src={Logo} alt="Logo" variant={"py-1 max-h-8"} />
-            E-Retribusi
-          </div>
+          <Link to={"/"}>
+            <div className="w-full flex items-center justify-start gap-2 text-xl text-slate-600">
+              <Image src={Logo} alt="Logo" variant={"py-1 max-h-8"} />
+              E-Retribusi
+            </div>
+          </Link>
           <div className="sidebar-menu flex items-start justify-start">
             <NavbarMenu />
           </div>

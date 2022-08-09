@@ -1,8 +1,9 @@
 import React from "react";
 import Logo from "../../../assets/images";
-import { Heading, Image } from "../../UI/atoms";
+import { Heading, Image, TabTitle } from "../../UI/atoms";
 
 const NotFound = () => {
+  TabTitle("404");
   return (
     <>
       <div className="fixed inset-0 flex flex-col items-center justify-center">

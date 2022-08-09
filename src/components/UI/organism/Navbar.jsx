@@ -8,6 +8,7 @@ import { AiOutlineLogout } from "react-icons/ai";
 import { Image } from "../atoms";
 import Logo from "../../../assets/images";
 import Drawer from "./Drawer";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -23,10 +24,12 @@ const Navbar = () => {
             <span className="sr-only">Menu navigation</span>
             <CgMenu className="text-lg" />
           </div>
-          <div className="max-w-[16rem] px-2 flex items-center justify-start gap-2 lg:hidden text-lg text-slate-600 whitespace-nowrap">
-            <Image src={Logo} alt="Logo" variant={"py-1 max-h-8"} />
-            E-Retribusi
-          </div>
+          <Link to={"/"}>
+            <div className="max-w-[16rem] px-2 flex items-center justify-start gap-2 lg:hidden text-lg text-slate-600 whitespace-nowrap">
+              <Image src={Logo} alt="Logo" variant={"py-1 max-h-8"} />
+              E-Retribusi
+            </div>
+          </Link>
           <div className="relative inline-block text-left">
             <div
               onClick={() => setDropdown(!dropdown)}

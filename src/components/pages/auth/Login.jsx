@@ -32,7 +32,7 @@ const Login = () => {
         <Button
           type={"submit"}
           variant={"mt-2 bg-sky-600 hover:bg-sky-500 text-white"}
-          name={"Sign in"}
+          text={"Sign in"}
         />
       </form>
     </>
