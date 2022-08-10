@@ -1,48 +1,48 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
-import { Button, Heading } from "../../UI/atoms";
-import { FloatingLabel } from "../../UI/molecules";
-import {
-  usersSelector,
-  updateUser,
-  getUsers,
-} from "../../../features/users/usersSlice";
+// import React, { useState, useEffect } from "react";
+// import { useDispatch, useSelector } from "react-redux";
+// import { useParams, useNavigate } from "react-router-dom";
+// import { Button, Heading } from "../../UI/atoms";
+// import { FloatingLabel } from "../../UI/molecules";
+// import {
+//   usersSelector,
+//   updateUser,
+//   getUsers,
+// } from "../../../features/users/usersSlice";
 
 const EditUser = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [gender, setGender] = useState("");
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const { id } = useParams();
+  // const [name, setName] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [gender, setGender] = useState("");
+  // const dispatch = useDispatch();
+  // const navigate = useNavigate();
+  // const { id } = useParams();
 
-  const user = useSelector((state) => usersSelector.selectById(state, id));
+  // const user = useSelector((state) => usersSelector.selectById(state, id));
 
-  useEffect(() => {
-    dispatch(getUsers());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(getUsers());
+  // }, [dispatch]);
 
-  useEffect(() => {
-    if (user) {
-      setName(user.name);
-      setEmail(user.email);
-      setGender(user.gender);
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user) {
+  //     setName(user.name);
+  //     setEmail(user.email);
+  //     setGender(user.gender);
+  //   }
+  // }, [user]);
 
-  const handleUpdate = async (e) => {
-    e.preventDefault();
-    try {
-      await dispatch(updateUser({ id, name, email, gender }));
-      navigate("/users");
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  // const handleUpdate = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     await dispatch(updateUser({ id, name, email, gender }));
+  //     navigate("/users");
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
   return (
     <>
-      <div className="bg-white">
+      {/* <div className="bg-white">
         <form
           onSubmit={handleUpdate}
           className="grid grid-flow-row-dense grid-cols-3 grid-rows-1 gap-4"
@@ -84,7 +84,7 @@ const EditUser = () => {
             />
           </div>
         </form>
-      </div>
+      </div> */}
     </>
   );
 };

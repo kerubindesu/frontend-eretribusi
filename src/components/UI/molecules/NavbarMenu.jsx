@@ -22,7 +22,7 @@ const NavbarMenu = () => {
           text={"Analisis"}
         />
         <NavbarItem
-          to={"retribusi"}
+          to={"retributions"}
           icon={<GoCreditCard />}
           text={"Retribusi"}
         />

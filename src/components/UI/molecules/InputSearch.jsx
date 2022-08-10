@@ -9,7 +9,7 @@ const InputSearch = () => {
         <input
           type="search"
           placeholder="Search"
-          className="max-w-[10rem] lg:w-[19.5rem] border-0 rounded-xl focus:border-0 focus:outline-none focus:ring-0"
+          className="max-w-[8rem] lg:w-[19.5rem] border-0 rounded-xl focus:border-0 focus:outline-none focus:ring-0"
         />
       </form>
     </>

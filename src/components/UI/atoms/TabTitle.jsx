@@ -1,3 +1,3 @@
 export const TabTitle = (newTitle) => {
-  return (document.title = "E-Retribusi - " + newTitle);
+  return (document.title = newTitle + " - E-Retribusi");
 };

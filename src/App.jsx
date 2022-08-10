@@ -3,6 +3,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { store } from "./app/store";
 import { AppFrame, AuthFrame } from "./components/templates";
 import {
+  AllRetributions,
+  AddRetribution,
+  EditRetribution,
   Analytics,
   AddUser,
   AllUsers,
@@ -28,7 +31,11 @@ function App() {
               <Route path="add" element={<AddUser />} />
               <Route path=":id" element={<EditUser />} />
             </Route>
-            <Route path="retribusi" element={<Retributions />} />
+            <Route path="retributions" element={<Retributions />}>
+              <Route index element={<AllRetributions />} />
+              <Route path="add" element={<AddRetribution />} />
+              <Route path=":id" element={<EditRetribution />} />
+            </Route>
           </Route>
           <Route path="/auth" element={<AuthFrame />}>
             <Route index element={<Login />} />

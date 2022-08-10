@@ -1,12 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import toggleMenuReducer from "../features/toggle/toggleMenuSlice";
-import retributionReducer from "../features/retribution/retributionSlice";
-import usersReducer from "../features/users/usersSlice";
+import retributionsReducer from "../features/retributions/retributionsSlice";
+import modalReducer from "../features/modal/modalSlice";
 
 export const store = configureStore({
   reducer: {
+    modal: modalReducer,
     toggleMenu: toggleMenuReducer,
-    retribution: retributionReducer,
-    users: usersReducer,
+    retributions: retributionsReducer,
   },
 });
