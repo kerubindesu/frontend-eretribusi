@@ -6,12 +6,12 @@ const toggleMenuSlice = createSlice({
     toggleStatus: false,
   },
   reducers: {
-    update: (state, action) => {
+    updateToggle: (state, action) => {
       state.toggleStatus = action.payload;
     },
   },
 });
 
-export const { update } = toggleMenuSlice.actions;
+export const { updateToggle } = toggleMenuSlice.actions;
 
 export default toggleMenuSlice.reducer;

@@ -1,40 +1,79 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { Button, Input, Heading } from "../../UI/atoms";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogin } from "../../../features/auth/authSlice";
+import { Spinner } from "flowbite-react";
+import { Button, Heading } from "../../UI/atoms";
+import { FloatingLabel } from "../../UI/molecules";
+import { Alert } from "../../UI/organism";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { userAuth, loading, error } = useSelector((state) => state.auth);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    try {
+      dispatch(userLogin({ email: email.toLowerCase(), password }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    const userAuth = JSON.parse(localStorage.getItem("userAuth"));
+    if (userAuth) navigate("/");
+  }, [navigate, userAuth]);
+
   return (
     <>
-      <div className="pb-4 text-xs">
-        <Heading text={"Sign in"} variant="text-xl" />
-        <span className="flex gap-1">
-          or
-          <Link to="/auth/register">
-            <p className="text-sky-600 hover:text-sky-500 font-semibold">
-              create an account
-            </p>
-          </Link>
-        </span>
-      </div>
-      <form>
-        <Input
-          type={"email"}
-          name={"email"}
-          placeholder={"Email"}
-          variant={"border-b-0 rounded-t-lg"}
-        />
-        <Input
-          type={"password"}
-          name={"password"}
-          placeholder={"Password"}
-          variant={"rounded-b-lg"}
-        />
-        <Button
-          type={"submit"}
-          variant={"mt-2 bg-sky-600 hover:bg-sky-500 text-white"}
-          text={"Sign in"}
-        />
-      </form>
+      <section>
+        <div className="pb-4 text-xs">
+          <Heading text={"Login"} variant="text-xl" />
+          <span className="flex gap-1">
+            atau
+            <Link to="/auth/sign-up">
+              <p className="text-sky-500 hover:text-sky-600 font-semibold">
+                belum memiliki akun
+              </p>
+            </Link>
+          </span>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <FloatingLabel
+            type={"email"}
+            text={"Email"}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            variant={"border-b-0 rounded-t-lg"}
+          />
+          <FloatingLabel
+            type={"password"}
+            text={"Password"}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Button
+            disabled={loading}
+            type={"submit"}
+            variant={"mt-2 bg-sky-400 hover:bg-sky-500 text-white"}
+            text={!loading && "Login"}
+            icon={loading && <Spinner />}
+          />
+          <div className="my-2">
+            {error && (
+              <Alert
+                message={error}
+                variant={"text-red-700 bg-red-100 border border-red-700"}
+              />
+            )}
+          </div>
+        </form>
+      </section>
     </>
   );
 };

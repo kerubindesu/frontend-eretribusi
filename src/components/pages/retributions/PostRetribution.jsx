@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { Button, Heading } from "../../UI/atoms";
+import { Button, Heading, TabTitle } from "../../UI/atoms";
 import { FloatingLabel } from "../../UI/molecules";
 import { saveRetribution } from "../../../features/retributions/retributionsSlice";
-import { IoSaveOutline } from "react-icons/io5";
 
-const AddRetribution = () => {
+const PostRetribution = () => {
+  TabTitle("Tambah Retribusi");
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const createRetribution = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await dispatch(saveRetribution({ name, address }));
@@ -23,14 +23,14 @@ const AddRetribution = () => {
   };
   return (
     <>
-      <div className="bg-white">
+      <div className="">
+        <Heading text={document.title} variant={"mb-8 text-start"} />
         <form
-          onSubmit={createRetribution}
+          onSubmit={handleSubmit}
           className="grid grid-flow-row-dense grid-cols-3 grid-rows-1 gap-4"
         >
-          <div className="px-4 col-span-3 lg:col-span-2">
-            <Heading text={"Edit User"} variant="text-xl mb-4 lg:mb-8" />
-            <div className="grid lg:grid-cols-2 gap-4">
+          <div className="col-span-3 sm:col-span-2">
+            <div className="grid sm:grid-cols-2 gap-x-4">
               <FloatingLabel
                 type={"text"}
                 id={"name"}
@@ -48,14 +48,13 @@ const AddRetribution = () => {
                 onChange={(e) => setAddress(e.target.value)}
               />
             </div>
-          </div>
-          <div className="text-end col-span-3 lg:col-span-1">
-            <Button
-              type={"submit"}
-              variant={"bg-sky-400 hover:bg-sky-500 text-white"}
-              icon={<IoSaveOutline />}
-              text={"Simpan"}
-            />
+            <div className="grid sm:grid-cols-2 gap-x-4">
+              <Button
+                type={"submit"}
+                variant={"bg-sky-400 hover:bg-sky-500 text-white"}
+                text={"Simpan"}
+              />
+            </div>
           </div>
         </form>
       </div>
@@ -63,4 +62,4 @@ const AddRetribution = () => {
   );
 };
 
-export default AddRetribution;
+export default PostRetribution;

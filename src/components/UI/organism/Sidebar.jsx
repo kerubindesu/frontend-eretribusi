@@ -1,9 +1,6 @@
 import React, { useEffect } from "react";
 import ScrollReveal from "scrollreveal";
-import { Image } from "../atoms";
-import Logo from "../../../assets/images";
 import { NavbarMenu } from "../molecules";
-import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   useEffect(() => {
@@ -20,20 +17,13 @@ const Sidebar = () => {
   });
   return (
     <>
-      <section className="sidebar pt-3.5 pb-8 px-8 w-[16rem] hidden lg:flex flex-col justify-between fixed z-10 inset-0 left-[max(0px,calc(50%-45rem))] right-auto overflow-x-hidden overflow-y-auto text-sm font-semibold leading-6">
+      <section className="py-4 px-8 w-[14rem] hidden lg:flex flex-col justify-between fixed z-10 inset-0 top-14 left-0 right-auto overflow-x-hidden overflow-y-auto font-semibold leading-6">
         {/* Top */}
         <div className="w-full flex flex-col gap-6">
           {/* Logo */}
-          <Link to={"/"}>
-            <div className="w-full flex items-center justify-start gap-2 text-xl text-slate-600">
-              <Image src={Logo} alt="Logo" variant={"py-1 max-h-8"} />
-              E-Retribusi
-            </div>
-          </Link>
           <div className="sidebar-menu flex items-start justify-start">
             <NavbarMenu />
           </div>
-          {/* End Links */}
         </div>
       </section>
     </>

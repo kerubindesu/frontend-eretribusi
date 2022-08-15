@@ -4,26 +4,23 @@ import NotFound from "./404";
 import Profile from "./profle";
 import {
   Retributions,
-  AllRetributions,
-  AddRetribution,
-  EditRetribution,
+  PostRetribution,
+  UpdateRetribution,
 } from "./retributions";
-import { Users, AllUsers, AddUser, EditUser } from "./users";
 import { Login, Register } from "./auth";
+import { Accounts, PostAccount, UpdateAccount } from "./accounts";
 
 export {
   Analytics,
-  AddUser,
-  AllUsers,
   Dashboard,
-  EditUser,
   Login,
   NotFound,
   Profile,
   Register,
   Retributions,
-  AllRetributions,
-  AddRetribution,
-  EditRetribution,
-  Users,
+  PostRetribution,
+  UpdateRetribution,
+  Accounts,
+  PostAccount,
+  UpdateAccount,
 };

@@ -1,4 +1,4 @@
-import AppFrame from "./AppFrame";
-import AuthFrame from "./AuthFrame";
+import ContainerApp from "./ContainerApp";
+import ContainerAuth from "./ContainerAuth";
 
-export { AppFrame, AuthFrame };
+export { ContainerApp, ContainerAuth };

@@ -5,42 +5,78 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const api = "http://localhost:4000/api/retributions";
+const baseURL = "http://localhost:4000/api/retributions";
 
 export const getRetributions = createAsyncThunk(
   "retributions/getRetributions",
-  async () => {
-    const response = await axios.get(`${api}`);
+  async (arg, { getState }) => {
+    const { auth } = getState();
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${auth.userAuth.token}`,
+      },
+    };
+    const response = await axios.get(`${baseURL}`, config);
     return response.data;
   }
 );
 
 export const saveRetribution = createAsyncThunk(
   "retributions/saveRetribution",
-  async ({ name, address }) => {
-    const response = await axios.post(`${api}`, {
-      name,
-      address,
-    });
+  async ({ name, address }, { getState }) => {
+    const { auth } = getState();
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${auth.userAuth.token}`,
+      },
+    };
+    const response = await axios.post(
+      `${baseURL}`,
+      {
+        name,
+        address,
+      },
+      config
+    );
     return response.data;
   }
 );
 
 export const updateRetribution = createAsyncThunk(
   "retributions/updateRetribution",
-  async ({ id, name, address }) => {
-    const response = await axios.patch(`${api}/${id}`, {
-      name,
-      address,
-    });
+  async ({ id, name, address }, { getState }) => {
+    const { auth } = getState();
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${auth.userAuth.token}`,
+      },
+    };
+    const response = await axios.patch(
+      `${baseURL}/${id}`,
+      {
+        name,
+        address,
+      },
+      config
+    );
     return response.data;
   }
 );
 
 export const deleteRetribution = createAsyncThunk(
   "retributions/deleteRetribution",
-  async (id) => {
-    await axios.delete(`${api}/${id}`);
+  async (id, { getState }) => {
+    const { auth } = getState();
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${auth.userAuth.token}`,
+      },
+    };
+    await axios.delete(`${baseURL}/${id}`, config);
     return id;
   }
 );

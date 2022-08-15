@@ -1,45 +1,46 @@
 import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { store } from "./app/store";
-import { AppFrame, AuthFrame } from "./components/templates";
+import { ContainerApp, ContainerAuth } from "./components/templates";
 import {
-  AllRetributions,
-  AddRetribution,
-  EditRetribution,
+  Retributions,
+  PostRetribution,
+  UpdateRetribution,
   Analytics,
-  AddUser,
-  AllUsers,
   Dashboard,
-  EditUser,
   Login,
   NotFound,
   Register,
-  Retributions,
-  Users,
+  Accounts,
+  PostAccount,
+  UpdateAccount,
 } from "./components/pages";
+import ProtectedRoute from "./config";
 
 function App() {
   return (
     <Provider store={store}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<AppFrame />}>
-            <Route index element={<Dashboard />} />
-            <Route path="analytics" element={<Analytics />} />
-            <Route path="users" element={<Users />}>
-              <Route index element={<AllUsers />} />
-              <Route path="add" element={<AddUser />} />
-              <Route path=":id" element={<EditUser />} />
-            </Route>
-            <Route path="retributions" element={<Retributions />}>
-              <Route index element={<AllRetributions />} />
-              <Route path="add" element={<AddRetribution />} />
-              <Route path=":id" element={<EditRetribution />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/" element={<ContainerApp />}>
+              <Route index element={<Dashboard />} />
+              <Route path="analytics" element={<Analytics />} />
+              <Route path="retributions">
+                <Route index element={<Retributions />} />
+                <Route path="add" element={<PostRetribution />} />
+                <Route path=":id" element={<UpdateRetribution />} />
+              </Route>
+              <Route path="bank-accounts">
+                <Route index element={<Accounts />} />
+                <Route path="add" element={<PostAccount />} />
+                <Route path=":id" element={<UpdateAccount />} />
+              </Route>
             </Route>
           </Route>
-          <Route path="/auth" element={<AuthFrame />}>
+          <Route path="/auth" element={<ContainerAuth />}>
             <Route index element={<Login />} />
-            <Route path="register" element={<Register />} />
+            <Route path="sign-up" element={<Register />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

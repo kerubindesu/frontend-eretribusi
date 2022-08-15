@@ -1,6 +1,5 @@
 import Retributions from "./Retributions";
-import AllRetributions from "./AllRetributions";
-import AddRetribution from "./AddRetribution";
-import EditRetribution from "./EditRetribution";
+import PostRetribution from "./PostRetribution";
+import UpdateRetribution from "./UpdateRetribution";
 
-export { Retributions, AllRetributions, AddRetribution, EditRetribution };
+export { Retributions, PostRetribution, UpdateRetribution };

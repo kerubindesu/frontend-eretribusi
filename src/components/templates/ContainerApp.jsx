@@ -2,12 +2,12 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import { Navbar, Sidebar, Footer } from "../UI/organism";
 
-const AppFrame = () => {
+const ContainerApp = () => {
   return (
     <>
       <Navbar />
       <Sidebar />
-      <div className="px-4 min-h-screen flex flex-col justify-between mt-16 lg:pl-[16rem] overflow-hidden">
+      <div className="mt-14 p-4 lg:pr-8 lg:pl-[14.5rem] min-h-screen flex flex-col justify-between overflow-hidden text-sm">
         <Outlet />
         <Footer />
       </div>
@@ -15,4 +15,4 @@ const AppFrame = () => {
   );
 };
 
-export default AppFrame;
+export default ContainerApp;
