@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateToggle } from "../../../features/toggle/toggleMenuSlice";
-import { logout, getUserInfo } from "../../../features/auth/authSlice";
+import { logout } from "../../../features/auth/authSlice";
 import { CgMenu } from "react-icons/cg";
 import { RiArrowDropDownLine } from "react-icons/ri";
 import { VscAccount } from "react-icons/vsc";
@@ -10,25 +10,24 @@ import { AiOutlineLogout } from "react-icons/ai";
 import { Image } from "../atoms";
 import Logo from "../../../assets/images";
 import Drawer from "./Drawer";
+import { getUserAuth } from "../../../features/auth/authActions";
 
 const Navbar = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const [dropdown, setDropdown] = useState(false);
-  const { userAuth } = useSelector((state) => state.auth);
+  const { userToken, userAuth } = useSelector((state) => state.auth);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     dispatch(logout());
-    navigate("/auth");
+    window.location.reload();
   };
 
   useEffect(() => {
-    const userAuth = JSON.parse(localStorage.getItem("userAuth"));
-    if (userAuth) {
-      dispatch(getUserInfo(userAuth));
+    if (userToken) {
+      dispatch(getUserAuth());
     }
-  }, [dispatch]);
+  }, [userToken, dispatch]);
 
   return (
     <>
@@ -79,7 +78,7 @@ const Navbar = () => {
                     tabIndex="-1"
                     id="menu-item-0"
                   >
-                    <span>{userAuth.email}</span>
+                    <span>{userAuth.name}</span>
                     <div className="pr-4 px-1 absolute right-0 bg-white">
                       ...
                     </div>

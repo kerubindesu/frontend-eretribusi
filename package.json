@@ -1,5 +1,5 @@
 {
-  "proxy": "http://localhost:4000",
+  "proxy": "http://localhost:4000/api/",
   "name": "fe-skripsi",
   "version": "0.1.0",
   "private": true,

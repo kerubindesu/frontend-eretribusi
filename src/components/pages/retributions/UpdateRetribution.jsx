@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useNavigate } from "react-router-dom";
-import { Button, Heading, TabTitle } from "../../UI/atoms";
-import { FloatingLabel } from "../../UI/molecules";
+import { retributionsSelector } from "../../../features/retributions/retributionsSlice";
 import {
-  retributionsSelector,
   updateRetribution,
   getRetributions,
-} from "../../../features/retributions/retributionsSlice";
+} from "../../../features/retributions/retributionsActions";
+import { Button, Heading, TabTitle } from "../../UI/atoms";
+import { FloatingLabel } from "../../UI/molecules";
 
 const UpdateRetribution = () => {
   TabTitle("Edit Retribusi");

@@ -1,84 +1,24 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
+import { userRegister, userLogin, getUserAuth } from "./authActions";
 
-const userAuth = JSON.parse(localStorage.getItem("userAuth"))
-  ? JSON.parse(localStorage.getItem("userAuth"))
+const userToken = JSON.parse(localStorage.getItem("userToken"))
+  ? JSON.parse(localStorage.getItem("userToken"))
   : null;
-
-export const userLogin = createAsyncThunk(
-  "user/login",
-  async ({ email, password }, { rejectWithValue }) => {
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      const response = await axios.post(
-        "http://localhost:4000/api/user/login",
-        {
-          email,
-          password,
-        },
-        config
-      );
-      localStorage.setItem("userAuth", JSON.stringify(response.data));
-      return response.data;
-    } catch (error) {
-      if (error.response) {
-        const message = error.response.data.error;
-        return rejectWithValue(message);
-      }
-    }
-  }
-);
-
-export const userRegister = createAsyncThunk(
-  "users/userRegister",
-  async ({ email, role, password }, { rejectWithValue }) => {
-    try {
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-      const response = await axios.post(
-        "http://localhost:4000/api/user/register",
-        {
-          email,
-          role,
-          password,
-        },
-        config
-      );
-      localStorage.setItem("userAuth", JSON.stringify(response.data));
-      return response.data;
-    } catch (error) {
-      if (error.response) {
-        const message = error.response.data.error;
-        return rejectWithValue(message);
-      }
-    }
-  }
-);
 
 export const authSlice = createSlice({
   name: "auth",
   initialState: {
     loading: false,
-    userAuth,
+    userToken,
+    userAuth: null,
+    success: false,
     error: null,
   },
   reducers: {
     logout: (state) => {
-      localStorage.removeItem("userAuth");
+      localStorage.removeItem("userToken");
       state.loading = false;
       state.userAuth = null;
-      state.error = null;
-    },
-    getUserInfo: (state, { payload }) => {
-      state.loading = false;
-      state.userAuth = payload;
       state.error = null;
     },
   },
@@ -89,7 +29,9 @@ export const authSlice = createSlice({
     },
     [userRegister.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.userAuth = payload.userAuth;
+      state.userAuth = payload;
+      state.userToken = payload.userToken;
+      state.success = true;
     },
     [userRegister.rejected]: (state, { payload }) => {
       state.loading = false;
@@ -102,15 +44,30 @@ export const authSlice = createSlice({
     },
     [userLogin.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.userAuth = payload.userAuth;
+      state.userAuth = payload;
+      state.userToken = payload.userToken;
+      state.success = true;
     },
     [userLogin.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+
+    // getUserAuth
+    [getUserAuth.pending]: (state) => {
+      state.loading = true;
+    },
+    [getUserAuth.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.userAuth = payload;
+    },
+    [getUserAuth.rejected]: (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     },
   },
 });
 
-export const { logout, getUserInfo } = authSlice.actions;
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;

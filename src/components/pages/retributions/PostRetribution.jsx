@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button, Heading, TabTitle } from "../../UI/atoms";
 import { FloatingLabel } from "../../UI/molecules";
-import { saveRetribution } from "../../../features/retributions/retributionsSlice";
+import { saveRetribution } from "../../../features/retributions/retributionsActions";
 
 const PostRetribution = () => {
   TabTitle("Tambah Retribusi");

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
+import { retributionsSelector } from "../../../features/retributions/retributionsSlice";
 import {
   getRetributions,
   deleteRetribution,
-  retributionsSelector,
-} from "../../../features/retributions/retributionsSlice";
+} from "../../../features/retributions/retributionsActions";
 import { setModal } from "../../../features/modal/modalSlice";
 import { Spinner } from "flowbite-react/lib/esm/components";
 import { InputSearch } from "../../UI/molecules";
@@ -17,7 +17,7 @@ const Retributions = () => {
   TabTitle("Retribusi");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { userAuth } = useSelector((state) => state.auth);
+  const { userToken } = useSelector((state) => state.auth);
   const retributions = useSelector(retributionsSelector.selectAll);
   const isLoading = useSelector((state) => state.retributions.isLoading);
   const [id, setId] = useState(null);
@@ -30,10 +30,10 @@ const Retributions = () => {
   };
 
   useEffect(() => {
-    if (userAuth) {
+    if (userToken) {
       dispatch(getRetributions());
     }
-  }, [userAuth, dispatch]);
+  }, [userToken, dispatch]);
   return (
     <>
       <div className="flex flex-col gap-4">

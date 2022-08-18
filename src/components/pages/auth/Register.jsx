@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { userRegister } from "../../../features/auth/authSlice";
+import { userRegister } from "../../../features/auth/authActions";
 import { Spinner } from "flowbite-react";
 import { Button, Heading } from "../../UI/atoms";
 import { FloatingLabel } from "../../UI/molecules";
@@ -9,26 +9,29 @@ import { Alert } from "../../UI/organism";
 
 const Register = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
 
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
-  const { userAuth, loading, error } = useSelector((state) => state.auth);
+  const { loading, error, success } = useSelector((state) => state.auth);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      dispatch(userRegister({ email: email.toLowerCase(), role, password }));
+      dispatch(
+        userRegister({ name, email: email.toLowerCase(), role, password })
+      );
     } catch (error) {
       console.table(error);
     }
   };
 
   useEffect(() => {
-    const userAuth = JSON.parse(localStorage.getItem("userAuth"));
-    if (userAuth) navigate("/");
-  }, [navigate, userAuth]);
+    if (success) {
+      window.location.reload();
+    }
+  });
 
   return (
     <>
@@ -45,6 +48,13 @@ const Register = () => {
           </span>
         </div>
         <form onSubmit={handleSubmit}>
+          <FloatingLabel
+            type={"text"}
+            text={"Nama Lengkap"}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            variant={"border-b-0 rounded-t-lg"}
+          />
           <FloatingLabel
             type={"email"}
             text={"Email"}
