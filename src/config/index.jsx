@@ -1,3 +1,3 @@
-import ProtectedRoute from "./ProtectedRoute";
+import RequireAuth from "./RequireAuth";
 
-export default ProtectedRoute;
+export default RequireAuth;

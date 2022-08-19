@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogin } from "../../../features/auth/authActions";
@@ -8,37 +8,39 @@ import { FloatingLabel } from "../../UI/molecules";
 import { Alert } from "../../UI/organism";
 
 const Login = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
+  const userRef = useRef();
+  const errRef = useRef();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { userToken, loading, success, error } = useSelector(
-    (state) => state.auth
-  );
+  const [errMsg, setErrMsg] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { loading, success, error } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    userRef.current.focus();
+  }, []);
+
+  useEffect(() => {
+    setErrMsg("");
+  }, [email, password]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
       dispatch(userLogin({ email: email.toLowerCase(), password }));
+      setEmail("");
+      setPassword("");
+      navigate("/welcome");
     } catch (error) {
       console.log(error);
+      errRef.current.focus();
     }
   };
 
-  useEffect(() => {
-    if (success) {
-      window.location.reload();
-    }
-  });
-
-  useEffect(() => {
-    if (userToken) {
-      navigate("/");
-    }
-  });
-
-  return (
+  const content = loading ? (
+    loading
+  ) : (
     <>
       <section>
         <div className="pb-4 text-xs">
@@ -85,6 +87,8 @@ const Login = () => {
       </section>
     </>
   );
+
+  return content;
 };
 
 export default Login;
