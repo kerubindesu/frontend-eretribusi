@@ -1,3 +1,4 @@
 import Logo from "./logo.png";
+import image404 from "./404.png";
 
-export default Logo;
+export { Logo, image404 };

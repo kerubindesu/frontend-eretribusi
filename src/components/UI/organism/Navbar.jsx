@@ -4,11 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateToggle } from "../../../features/toggle/toggleMenuSlice";
 import { logout } from "../../../features/auth/authSlice";
 import { CgMenu } from "react-icons/cg";
-import { RiArrowDropDownLine } from "react-icons/ri";
-import { VscAccount } from "react-icons/vsc";
 import { AiOutlineLogout } from "react-icons/ai";
 import { Image } from "../atoms";
-import Logo from "../../../assets/images";
+import { Logo } from "../../../assets/images";
 import Drawer from "./Drawer";
 import { getUserAuth } from "../../../features/auth/authActions";
 
@@ -33,10 +31,10 @@ const Navbar = () => {
     <>
       <section className="fixed inset-0 bottom-auto font-semibold bg-white/75 z-10 backdrop-blur">
         <div className="px-4 lg:pr-8 lg:pl-0 w-full h-14 flex items-center justify-between">
-          <div className="w-[3rem] lg:hidden">
+          <div className="w-max lg:hidden">
             <div
               onClick={() => dispatch(updateToggle(true))}
-              className="w-max rounded cursor-pointer text-slate-600 hover:text-black"
+              className="rounded cursor-pointer text-slate-600 hover:text-black"
             >
               <span className="sr-only">Menu navigation</span>
               <CgMenu className="text-2xl" />
@@ -48,16 +46,15 @@ const Navbar = () => {
               E-Retribusi
             </div>
           </Link>
-          <div className="w-[3rem] relative inline-block text-left">
+          <div className="w-max relative inline-block text-left">
             {userAuth && (
               <div
                 onClick={() => setDropdown(!dropdown)}
-                className="text-slate-600 flex items-center justify-center cursor-pointer"
+                className="flex items-center justify-center text-slate-600 whitespace-nowrap cursor-pointer"
               >
-                <div className="h-8 w-8 rounded-full bg-slate-50 flex items-center justify-center text-2xl">
-                  <VscAccount className="text-2xl" />
+                <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center">
+                  {Array.from(`${userAuth.name}`)[0]}
                 </div>
-                <RiArrowDropDownLine />
                 <span className="sr-only">Dropdown logout</span>
               </div>
             )}

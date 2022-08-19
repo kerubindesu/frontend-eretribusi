@@ -1,15 +1,24 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from "react";
 import { useNavigate, Outlet } from "react-router-dom";
 
 const ProtectedRoute = () => {
   const navigate = useNavigate();
-  const { userAuth } = useSelector((state) => state.auth);
+
+  const [userAuth, setUserAuth] = useState(null);
+
+  console.log(userAuth);
+
+  useEffect(() => {
+    const auth = localStorage.getItem("userToken");
+    if (auth) {
+      setUserAuth(auth);
+    }
+  }, []);
 
   // show unauthorized screen if no user is found in redux store
   useEffect(() => {
     if (!userAuth) {
-      return navigate("/auth");
+      return navigate("/");
     }
   }, [userAuth, navigate]);
 

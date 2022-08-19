@@ -1,6 +1,6 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
-import Logo from "../../assets/images";
+import { Logo } from "../../assets/images";
 import { Image } from "../UI/atoms";
 import { Footer } from "../UI/organism";
 

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import { BiArrowBack } from "react-icons/bi";
 import { Button, Heading, TabTitle } from "../../UI/atoms";
 import { FloatingLabel } from "../../UI/molecules";
 import { saveRetribution } from "../../../features/retributions/retributionsActions";
@@ -23,8 +24,13 @@ const PostRetribution = () => {
   };
   return (
     <>
-      <div className="">
-        <Heading text={document.title} variant={"mb-8 text-start"} />
+      <div>
+        <div className="mb-8 flex items-center gap-4">
+          <Link to="/retributions">
+            <BiArrowBack />
+          </Link>
+          <Heading text={document.title} variant={"text-start"} />
+        </div>
         <form
           onSubmit={handleSubmit}
           className="grid grid-flow-row-dense grid-cols-3 grid-rows-1 gap-4"

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { BiArrowBack } from "react-icons/bi";
 import { retributionsSelector } from "../../../features/retributions/retributionsSlice";
 import {
   updateRetribution,
@@ -43,8 +44,13 @@ const UpdateRetribution = () => {
   };
   return (
     <>
-      <div className="">
-        <Heading text={document.title} variant={"mb-8 text-start"} />
+      <div>
+        <div className="mb-8 flex items-center gap-4">
+          <Link to="/retributions">
+            <BiArrowBack />
+          </Link>
+          <Heading text={document.title} variant={"text-start"} />
+        </div>
         <form
           onSubmit={handleSubmit}
           className="grid grid-flow-row-dense grid-cols-3 grid-rows-1 gap-4"

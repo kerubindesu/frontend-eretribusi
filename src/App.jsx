@@ -16,7 +16,7 @@ import {
   PostAccount,
   UpdateAccount,
 } from "./components/pages";
-import ProtectedRoute from "./config";
+// import ProtectedRoute from "./config";
 
 function App() {
   const [userAuth, setUserAuth] = useState(null);
