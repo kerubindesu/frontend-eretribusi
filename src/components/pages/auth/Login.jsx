@@ -30,13 +30,13 @@ const Login = () => {
     if (success) {
       window.location.reload();
     }
-  });
+  }, [success]);
 
   useEffect(() => {
     if (userToken) {
       navigate("/");
     }
-  });
+  }, [userToken, navigate]);
 
   return (
     <>

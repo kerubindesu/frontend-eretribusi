@@ -80,6 +80,7 @@ const Navbar = () => {
                       ...
                     </div>
                   </div>
+                  <hr />
                   <form onSubmit={handleSubmit}>
                     <button
                       type="submit"
