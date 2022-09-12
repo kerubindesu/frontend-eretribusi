@@ -1,7 +1,7 @@
 import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { store } from "./app/store";
-import { ContainerApp, ContainerAuth } from "./components/templates";
+import ContainerApp from "./components/templates";
 import {
   Retributions,
   PostRetribution,
@@ -11,9 +11,7 @@ import {
   Login,
   NotFound,
   Register,
-  Accounts,
-  PostAccount,
-  UpdateAccount,
+  Users,
 } from "./components/pages";
 import RequireAuth from "./config";
 
@@ -31,15 +29,11 @@ function App() {
                 <Route path="add" element={<PostRetribution />} />
                 <Route path=":id" element={<UpdateRetribution />} />
               </Route>
-              <Route path="bank-accounts">
-                <Route index element={<Accounts />} />
-                <Route path="add" element={<PostAccount />} />
-                <Route path=":id" element={<UpdateAccount />} />
-              </Route>
+              <Route path="users" element={<Users />} />
             </Route>
           </Route>
-          <Route path="/auth" element={<ContainerAuth />}>
-            <Route index element={<Login />} />
+          <Route path="/auth">
+            <Route path="login" element={<Login />} />
             <Route path="register" element={<Register />} />
           </Route>
           <Route path="*" element={<NotFound />} />

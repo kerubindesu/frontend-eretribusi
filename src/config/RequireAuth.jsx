@@ -9,7 +9,7 @@ const RequireAuth = () => {
   return token ? (
     <Outlet />
   ) : (
-    <Navigate to="/auth" state={{ from: location }} replace />
+    <Navigate to="/auth/login" state={{ from: location }} replace />
   );
 };
 

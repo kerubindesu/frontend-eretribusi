@@ -1,11 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const base_URL = "http://localhost:4000/api/user";
+const base_URL = "http://localhost:4000/api/users";
 
 export const userLogin = createAsyncThunk(
   "user/login",
-  async ({ email, password }, { rejectWithValue }) => {
+  async ({ username, password }, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
@@ -15,7 +15,7 @@ export const userLogin = createAsyncThunk(
       const response = await axios.post(
         `${base_URL}/login`,
         {
-          email,
+          username,
           password,
         },
         config
@@ -33,7 +33,7 @@ export const userLogin = createAsyncThunk(
 
 export const userRegister = createAsyncThunk(
   "user/userRegister",
-  async ({ name, email, role, password }, { rejectWithValue }) => {
+  async ({ name, username, role, password }, { rejectWithValue }) => {
     try {
       const config = {
         headers: {
@@ -44,7 +44,7 @@ export const userRegister = createAsyncThunk(
         `${base_URL}/register`,
         {
           name,
-          email,
+          username,
           role,
           password,
         },
@@ -53,10 +53,8 @@ export const userRegister = createAsyncThunk(
       localStorage.setItem("userToken", JSON.stringify(response.data));
       return response.data;
     } catch (error) {
-      if (error.response) {
-        const message = error.response.data.error;
-        return rejectWithValue(message);
-      }
+      const message = error.response.data.error;
+      return rejectWithValue(message);
     }
   }
 );

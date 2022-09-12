@@ -11,7 +11,7 @@ const Register = () => {
   const dispatch = useDispatch();
 
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
+  const [username, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
   const { loading, error, success } = useSelector((state) => state.auth);
@@ -20,7 +20,7 @@ const Register = () => {
     e.preventDefault();
     try {
       dispatch(
-        userRegister({ name, email: email.toLowerCase(), role, password })
+        userRegister({ name, username: username.toLowerCase(), role, password })
       );
     } catch (error) {
       console.table(error);
@@ -28,9 +28,7 @@ const Register = () => {
   };
 
   useEffect(() => {
-    if (success) {
-      window.location.reload();
-    }
+    success && window.location.reload();
   });
 
   return (
@@ -56,9 +54,9 @@ const Register = () => {
             variant={"border-b-0 rounded-t-lg"}
           />
           <FloatingLabel
-            type={"email"}
-            text={"Email"}
-            value={email}
+            type={"text"}
+            text={"Username"}
+            value={username}
             onChange={(e) => setEmail(e.target.value)}
             variant={"border-b-0 rounded-t-lg"}
           />

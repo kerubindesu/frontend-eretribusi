@@ -1,8 +1,19 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { Navbar, Sidebar, Footer } from "../UI/organism";
 
 const ContainerApp = () => {
+  const toggleStatus = useSelector((state) => state.toggleMenu.toggleStatus);
+  const showModal = useSelector((state) => state.modal.showModal);
+
+  if (toggleStatus || showModal) {
+    disableBodyScroll(document);
+  } else {
+    enableBodyScroll(document);
+  }
+
   return (
     <>
       <Navbar />

@@ -8,7 +8,7 @@ import {
   UpdateRetribution,
 } from "./retributions";
 import { Login, Register } from "./auth";
-import { Accounts, PostAccount, UpdateAccount } from "./accounts";
+import Users from "./users";
 
 export {
   Analytics,
@@ -20,7 +20,5 @@ export {
   Retributions,
   PostRetribution,
   UpdateRetribution,
-  Accounts,
-  PostAccount,
-  UpdateAccount,
+  Users,
 };

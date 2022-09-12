@@ -1,77 +1,87 @@
-import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import {
   getRetributions,
+  getRetribution,
   updateRetribution,
   saveRetribution,
   deleteRetribution,
 } from "./retributionsActions";
 
-const retributionsEntity = createEntityAdapter({
-  selectId: (retributions) => retributions._id,
-});
-
-const retributionsSlice = createSlice({
+export const retributionsSlice = createSlice({
   name: "retributions",
-  initialState: retributionsEntity.getInitialState({
-    isLoading: true,
-    isError: null,
-  }),
+  initialState: {
+    loading: false,
+    success: false,
+    retributions: [],
+    error: null,
+  },
   extraReducers: {
-    // GET
+    // GET All
     [getRetributions.pending]: (state) => {
-      state.isLoading = true;
+      state.loading = true;
     },
-    [getRetributions.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      retributionsEntity.setAll(state, action.payload);
+    [getRetributions.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+      state.retributions = payload;
     },
-    [getRetributions.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.isError = action.error;
+    [getRetributions.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+    // GET Single
+    [getRetribution.pending]: (state) => {
+      state.loading = true;
+    },
+    [getRetribution.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+      state.retributions = payload;
+    },
+    [getRetribution.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
     },
     // POST
     [saveRetribution.pending]: (state) => {
-      state.isLoading = true;
+      state.loading = true;
     },
-    [saveRetribution.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      retributionsEntity.addOne(state, action.payload);
+    [saveRetribution.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+      state.retributions = payload;
     },
-    [saveRetribution.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.isError = action.error;
+    [saveRetribution.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
     },
     // PATCH
     [updateRetribution.pending]: (state) => {
-      state.isLoading = true;
+      state.loading = true;
     },
-    [updateRetribution.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      retributionsEntity.updateOne(state, {
-        id: action.payload.id,
-        updates: action.payload,
-      });
+    [updateRetribution.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+      state.retributions = payload;
     },
-    [updateRetribution.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.isError = action.error;
+    [updateRetribution.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
     },
     // DELTE
     [deleteRetribution.pending]: (state) => {
-      state.isLoading = true;
+      state.loading = true;
     },
-    [deleteRetribution.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      retributionsEntity.removeOne(state, action.payload);
+    [deleteRetribution.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+      state.retributions = payload;
     },
-    [deleteRetribution.rejected]: (state, action) => {
-      state.isLoading = false;
-      state.isError = action.error;
+    [deleteRetribution.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
     },
   },
 });
 
-export const retributionsSelector = retributionsEntity.getSelectors(
-  (state) => state.retributions
-);
 export default retributionsSlice.reducer;

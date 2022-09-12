@@ -5,7 +5,7 @@ import {
 } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const api = "http://localhost:4000/api/accounts";
+const api = "http://localhost:4000/api/users";
 
 export const getAccounts = createAsyncThunk(
   "accounts/getAccounts",
@@ -52,59 +52,59 @@ const accountsEntity = createEntityAdapter({
 const accountsSlice = createSlice({
   name: "accounts",
   initialState: accountsEntity.getInitialState({
-    isLoading: true,
+    loading: true,
     isError: null,
   }),
   extraReducers: {
     // GET
     [getAccounts.pending]: (state) => {
-      state.isLoading = true;
+      state.loading = true;
     },
     [getAccounts.fulfilled]: (state, action) => {
-      state.isLoading = false;
+      state.loading = false;
       accountsEntity.setAll(state, action.payload);
     },
     [getAccounts.rejected]: (state, action) => {
-      state.isLoading = false;
+      state.loading = false;
       state.isError = action.error;
     },
     // POST
     [saveAccount.pending]: (state) => {
-      state.isLoading = true;
+      state.loading = true;
     },
     [saveAccount.fulfilled]: (state, action) => {
-      state.isLoading = false;
+      state.loading = false;
       accountsEntity.addOne(state, action.payload);
     },
     [saveAccount.rejected]: (state, action) => {
-      state.isLoading = false;
+      state.loading = false;
       state.isError = action.error;
     },
     // PATCH
     [updateAccount.pending]: (state) => {
-      state.isLoading = true;
+      state.loading = true;
     },
     [updateAccount.fulfilled]: (state, action) => {
-      state.isLoading = false;
+      state.loading = false;
       accountsEntity.updateOne(state, {
         id: action.payload.id,
         updates: action.payload,
       });
     },
     [updateAccount.rejected]: (state, action) => {
-      state.isLoading = false;
+      state.loading = false;
       state.isError = action.error;
     },
     // DELTE
     [deleteAccount.pending]: (state) => {
-      state.isLoading = true;
+      state.loading = true;
     },
     [deleteAccount.fulfilled]: (state, action) => {
-      state.isLoading = false;
+      state.loading = false;
       accountsEntity.removeOne(state, action.payload);
     },
     [deleteAccount.rejected]: (state, action) => {
-      state.isLoading = false;
+      state.loading = false;
       state.isError = action.error;
     },
   },

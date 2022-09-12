@@ -9,7 +9,7 @@ export const authSlice = createSlice({
   name: "auth",
   initialState: {
     loading: false,
-    userToken,
+    userToken: userToken,
     userAuth: null,
     success: false,
     error: null,
@@ -29,9 +29,9 @@ export const authSlice = createSlice({
     },
     [userRegister.fulfilled]: (state, { payload }) => {
       state.loading = false;
-      state.userAuth = payload;
       state.userToken = payload.userToken;
       state.success = true;
+      state.userAuth = payload;
     },
     [userRegister.rejected]: (state, { payload }) => {
       state.loading = false;

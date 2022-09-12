@@ -6,6 +6,7 @@ import { NavbarMenu } from "../molecules";
 
 const Drawer = () => {
   const toggleStatus = useSelector((state) => state.toggleMenu.toggleStatus);
+
   const dispatch = useDispatch();
   return (
     <>
