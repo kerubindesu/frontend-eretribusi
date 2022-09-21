@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 import { useAsyncDebounce } from "react-table";
-import { InputSearch } from "../molecules";
+import { InputSearch } from "../components/UI/molecules";
 
-const GlobalFilter = ({
-  preGlobalFilteredRows,
-  globalFilter,
-  setGlobalFilter,
-}) => {
-  const count = preGlobalFilteredRows.length;
+const GlobalFilter = ({ globalFilter, setGlobalFilter, setQuery }) => {
   const [value, setValue] = useState(globalFilter);
   const onChange = useAsyncDebounce((value) => {
     setGlobalFilter(value || undefined);
+    setQuery(value);
   }, 300);
 
   return (
@@ -20,7 +16,7 @@ const GlobalFilter = ({
         setValue(e.target.value);
         onChange(e.target.value);
       }}
-      placeholder={`${count} baris data...`}
+      placeholder={"Ketik sesuatu ..."}
     />
   );
 };

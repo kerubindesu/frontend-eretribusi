@@ -2,9 +2,9 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
-import { Navbar, Sidebar, Footer } from "../UI/organism";
+import { Navbar, Sidebar } from "../UI/organism";
 
-const ContainerApp = () => {
+const Main = () => {
   const toggleStatus = useSelector((state) => state.toggleMenu.toggleStatus);
   const showModal = useSelector((state) => state.modal.showModal);
 
@@ -18,12 +18,11 @@ const ContainerApp = () => {
     <>
       <Navbar />
       <Sidebar />
-      <div className="mt-14 p-4 lg:pr-8 lg:pl-[14.5rem] min-h-screen flex flex-col justify-between overflow-hidden text-sm">
+      <div className="pt-16 p-4 lg:pr-8 lg:pl-[14rem] min-h-screen flex flex-col justify-between overflow-hidden text-sm">
         <Outlet />
-        <Footer />
       </div>
     </>
   );
 };
 
-export default ContainerApp;
+export default Main;

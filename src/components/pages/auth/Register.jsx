@@ -83,7 +83,7 @@ const Register = () => {
             {error && (
               <Alert
                 message={error}
-                variant={"text-red-700 bg-red-100 border border-red-700"}
+                variant={"text-orange-700 bg-red-100 border border-orange-700"}
               />
             )}
           </div>

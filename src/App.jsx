@@ -1,19 +1,32 @@
 import { Provider } from "react-redux";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { store } from "./app/store";
-import ContainerApp from "./components/templates";
+import Main from "./components/templates/Main";
 import {
-  Retributions,
-  PostRetribution,
+  Bill,
+  CreateBill,
+  Retribution,
+  CreateRetribution,
   UpdateRetribution,
-  Analytics,
+  Analytic,
   Dashboard,
+  Invoice,
   Login,
   NotFound,
   Register,
-  Users,
+  User,
+  Stall,
+  CreateStall,
+  UpdateStall,
+  BusinessType,
+  CreateBusinessType,
+  UpdateBusinessType,
+  Role,
+  CreateRole,
+  UpdateBill,
+  UpdateRole,
 } from "./components/pages";
-import RequireAuth from "./config";
+import { RequireAuth } from "./config";
 
 function App() {
   return (
@@ -21,15 +34,40 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route element={<RequireAuth />}>
-            <Route path="/" element={<ContainerApp />}>
+            <Route path="/" element={<Main />}>
               <Route index element={<Dashboard />} />
-              <Route path="analytics" element={<Analytics />} />
-              <Route path="retributions">
-                <Route index element={<Retributions />} />
-                <Route path="add" element={<PostRetribution />} />
-                <Route path=":id" element={<UpdateRetribution />} />
+              <Route path="analytics" element={<Analytic />} />
+              <Route path="invoices">
+                <Route index element={<Invoice />} />
+                {/* <Route path="add" element={<CreateRetribution />} />
+                <Route path=":id/edit" element={<UpdateRetribution />} /> */}
               </Route>
-              <Route path="users" element={<Users />} />
+              <Route path="bills">
+                <Route index element={<Bill />} />
+                <Route path="add" element={<CreateBill />} />
+                <Route path=":id/edit" element={<UpdateBill />} />
+              </Route>
+              <Route path="retributions">
+                <Route index element={<Retribution />} />
+                <Route path="add" element={<CreateRetribution />} />
+                <Route path=":id/edit" element={<UpdateRetribution />} />
+              </Route>
+              <Route path="stalls">
+                <Route index element={<Stall />} />
+                <Route path="add" element={<CreateStall />} />
+                <Route path=":id/edit" element={<UpdateStall />} />
+              </Route>
+              <Route path="type-of-business">
+                <Route index element={<BusinessType />} />
+                <Route path="add" element={<CreateBusinessType />} />
+                <Route path=":id/edit" element={<UpdateBusinessType />} />
+              </Route>
+              <Route path="roles">
+                <Route index element={<Role />} />
+                <Route path="add" element={<CreateRole />} />
+                <Route path=":id/edit" element={<UpdateRole />} />
+              </Route>
+              <Route path="users" element={<User />} />
             </Route>
           </Route>
           <Route path="/auth">

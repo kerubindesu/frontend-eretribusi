@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userRegister, userLogin, getUserAuth } from "./authActions";
+import { getUsers, userRegister, userLogin, getUserAuth } from "./authActions";
 
 const userToken = JSON.parse(localStorage.getItem("userToken"))
   ? JSON.parse(localStorage.getItem("userToken"))
@@ -10,9 +10,10 @@ export const authSlice = createSlice({
   initialState: {
     loading: false,
     userToken: userToken,
-    userAuth: null,
+    userAuth: "",
     success: false,
-    error: null,
+    error: "",
+    users: "",
   },
   reducers: {
     logout: (state) => {
@@ -23,6 +24,20 @@ export const authSlice = createSlice({
     },
   },
   extraReducers: {
+    // getUsers
+    [getUsers.pending]: (state) => {
+      state.loading = true;
+    },
+    [getUsers.fulfilled]: (state, { payload }) => {
+      state.loading = false;
+      state.success = true;
+      state.users = payload;
+    },
+    [getUsers.rejected]: (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    },
+
     // userRegister
     [userRegister.pending]: (state) => {
       state.loading = true;

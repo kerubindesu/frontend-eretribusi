@@ -1,85 +1,78 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   getRetributions,
-  getRetribution,
+  getRetributionById,
   updateRetribution,
-  saveRetribution,
+  createRetribution,
   deleteRetribution,
 } from "./retributionsActions";
 
 export const retributionsSlice = createSlice({
   name: "retributions",
   initialState: {
-    loading: false,
-    success: false,
-    retributions: [],
-    error: null,
+    isLoading: false,
+    retributions: "",
+    retribution: "",
+    isError: "",
   },
   extraReducers: {
     // GET All
     [getRetributions.pending]: (state) => {
-      state.loading = true;
+      state.isLoading = true;
     },
     [getRetributions.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.success = true;
+      state.isLoading = false;
       state.retributions = payload;
+      state.isError = "";
     },
     [getRetributions.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.error = payload;
+      state.isLoading = false;
+      state.isError = payload;
     },
     // GET Single
-    [getRetribution.pending]: (state) => {
-      state.loading = true;
+    [getRetributionById.pending]: (state) => {
+      state.isLoading = true;
     },
-    [getRetribution.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.success = true;
-      state.retributions = payload;
+    [getRetributionById.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      state.retribution = payload;
     },
-    [getRetribution.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.error = payload;
+    [getRetributionById.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      state.isError = payload;
     },
     // POST
-    [saveRetribution.pending]: (state) => {
-      state.loading = true;
+    [createRetribution.pending]: (state) => {
+      state.isLoading = true;
     },
-    [saveRetribution.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.success = true;
-      state.retributions = payload;
+    [createRetribution.fulfilled]: (state) => {
+      state.isLoading = false;
     },
-    [saveRetribution.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.error = payload;
+    [createRetribution.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      state.isError = payload;
     },
     // PATCH
     [updateRetribution.pending]: (state) => {
-      state.loading = true;
+      state.isLoading = true;
     },
-    [updateRetribution.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.success = true;
-      state.retributions = payload;
+    [updateRetribution.fulfilled]: (state) => {
+      state.isLoading = false;
     },
     [updateRetribution.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.error = payload;
+      state.isLoading = false;
+      state.isError = payload;
     },
     // DELTE
     [deleteRetribution.pending]: (state) => {
-      state.loading = true;
+      state.isLoading = true;
     },
-    [deleteRetribution.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.success = true;
-      state.retributions = payload;
+    [deleteRetribution.fulfilled]: (state) => {
+      state.isLoading = false;
     },
     [deleteRetribution.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.error = payload;
+      state.isLoading = false;
+      state.isError = payload;
     },
   },
 });

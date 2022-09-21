@@ -1,54 +1,52 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import { BiArrowBack } from "react-icons/bi";
 import { Button, Heading, TabTitle } from "../../UI/atoms";
 import { FloatingLabel } from "../../UI/molecules";
-import { saveRetribution } from "../../../features/retributions/retributionsActions";
+import { Alert } from "../../UI/organism";
+import { createStall } from "../../../features/stalls/stallsActions";
 import Select from "react-select";
+import { Spinner } from "flowbite-react";
 
-const PostRetribution = () => {
-  TabTitle("Tambah Retribusi");
+const CreateStall = () => {
+  TabTitle("Buat Kios/Loas");
 
-  const [stall_type, setStallType] = useState("");
-  const [stall_name, setStallName] = useState("");
-  const [stall_size, setStallSize] = useState("");
-  const [commerce_type, setCommerceType] = useState("");
+  const [type, setType] = useState("");
   const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
+  const [size, setSize] = useState("");
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const { isLoading, isError } = useSelector((state) => state.stalls);
+
+  const createData = {
+    type,
+    name,
+    size,
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    try {
-      dispatch(
-        saveRetribution({
-          stall_type,
-          stall_name,
-          stall_size,
-          commerce_type,
-          name,
-          address,
-        })
-      );
-      navigate("/retributions");
-    } catch (error) {
-      console.log(error);
-    }
+    dispatch(
+      createStall({
+        createData,
+        navigate,
+      })
+    );
   };
 
   const options = [
-    { value: "KIOS", label: "KIOS" },
-    { value: "LOS", label: "LOS" },
+    { value: "kios", label: "KIOS" },
+    { value: "los", label: "LOS" },
   ];
 
   return (
     <>
       <div>
         <div className="mb-8 flex items-center gap-4">
-          <Link to="/retributions">
+          <Link to={-1}>
             <BiArrowBack />
           </Link>
           <Heading text={document.title} variant={"text-start"} />
@@ -78,7 +76,7 @@ const PostRetribution = () => {
                 }),
               }}
               onChange={(e) => {
-                setStallType(e.value);
+                setType(e.value);
               }}
               placeholder="Tipe retribusi..."
             />
@@ -86,53 +84,40 @@ const PostRetribution = () => {
             <div className="grid sm:grid-cols-2 gap-x-4">
               <FloatingLabel
                 type={"text"}
-                id={"stall_name"}
-                value={stall_name}
-                htmlFor={"stall_name"}
-                text={"Nomor"}
-                onChange={(e) => setStallName(e.target.value)}
-              />
-              <FloatingLabel
-                type={"number"}
-                id={"stall_size"}
-                value={stall_size}
-                htmlFor={"stall_size"}
-                text={"Luas"}
-                onChange={(e) => setStallSize(e.target.value)}
-              />
-            </div>
-            <div className="grid sm:grid-cols-2 gap-x-4">
-              <FloatingLabel
-                type={"text"}
-                id={"commerce_type"}
-                value={commerce_type}
-                htmlFor={"commerce_type"}
-                text={"Jenis Dagang"}
-                onChange={(e) => setCommerceType(e.target.value)}
-              />
-              <FloatingLabel
-                type={"text"}
                 id={"name"}
                 value={name}
                 htmlFor={"name"}
-                text={"Nama lengkap"}
+                text={"Nomor"}
                 onChange={(e) => setName(e.target.value)}
               />
               <FloatingLabel
                 type={"text"}
-                id={"address"}
-                value={address}
-                htmlFor={"address"}
-                text={"Alamat"}
-                onChange={(e) => setAddress(e.target.value)}
+                id={"size"}
+                value={size}
+                htmlFor={"size"}
+                text={"Luas"}
+                onChange={(e) => setSize(e.target.value)}
               />
             </div>
             <div className="grid sm:grid-cols-2 gap-x-4">
               <Button
+                disabled={isLoading}
                 type={"submit"}
                 variant={"bg-sky-400 hover:bg-sky-500 text-white"}
-                text={"Simpan"}
+                text={!isLoading && "Tambahkan"}
+                icon={isLoading && <Spinner />}
               />
+            </div>
+
+            <div className="my-2 w-full">
+              {isError && (
+                <Alert
+                  message={isError.data}
+                  variant={
+                    "text-orange-700 bg-red-100 border border-orange-700"
+                  }
+                />
+              )}
             </div>
           </div>
         </form>
@@ -141,4 +126,4 @@ const PostRetribution = () => {
   );
 };
 
-export default PostRetribution;
+export default CreateStall;

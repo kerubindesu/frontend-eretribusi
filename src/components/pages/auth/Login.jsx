@@ -42,7 +42,7 @@ const Login = () => {
       <div className="min-h-screen w-screen overflow-x-hidden flex flex-col md:flex-row gap-4">
         <div className="h-screen px-4 pt-14 md:pl-8 md:pr-4 min-w-[20rem] md:w-[24rem] max-w-[24] flex flex-col justify-between bg-white">
           <div className="flex-1">
-            <section className="mb-4 flex justify-center md:justify-start items-center gap-2">
+            <section className="mb-4 flex justify-center items-center gap-2">
               <Image
                 src={Logo}
                 alt="logo"
@@ -79,7 +79,9 @@ const Login = () => {
                   {error && (
                     <Alert
                       message={error}
-                      variant={"text-red-700 bg-red-100 border border-red-700"}
+                      variant={
+                        "text-orange-700 bg-red-100 border border-orange-700"
+                      }
                     />
                   )}
                 </div>

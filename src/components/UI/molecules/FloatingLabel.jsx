@@ -1,6 +1,14 @@
 import React from "react";
 
-const FloatingLabel = ({ type, value, id, htmlFor, text, onChange }) => {
+const FloatingLabel = ({
+  type,
+  value,
+  id,
+  htmlFor,
+  text,
+  onChange,
+  readOnly,
+}) => {
   return (
     <>
       <div className="relative z-0 mb-6 w-full group text-sm">
@@ -12,6 +20,7 @@ const FloatingLabel = ({ type, value, id, htmlFor, text, onChange }) => {
           className="block py-2.5 px-0 w-full text-gray-900 bg-transparent border-0 border-b-2 border-gray-200 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-sky-400 focus:outline-none focus:ring-0 focus:border-sky-500 peer text-sm"
           placeholder={" "}
           autoComplete="off"
+          readOnly={readOnly}
         />
         <label
           htmlFor={htmlFor}

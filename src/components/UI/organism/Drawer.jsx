@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateToggle } from "../../../features/toggle/toggleMenuSlice";
 import { CgClose } from "react-icons/cg";
 import { NavbarMenu } from "../molecules";
+import Footer from "./Footer";
 
 const Drawer = () => {
   const toggleStatus = useSelector((state) => state.toggleMenu.toggleStatus);
@@ -25,13 +26,11 @@ const Drawer = () => {
             <span className="sr-only">Close navigation</span>
             <CgClose className="text-lg" />
           </div>
-          {/* Menu */}
-          <div className="nav-items mb-4 flex items-start justify-start overflow-x-hidden overflow-y-auto snap-none">
+          <div className="w-full h-full flex flex-col justify-between items-start overflow-x-hidden overflow-y-auto snap-none">
             <NavbarMenu />
+            <Footer />
           </div>
-          {/* End Menu */}
         </div>
-        {/* End Links */}
       </div>
     </>
   );
