@@ -1,61 +1,45 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import API from "../../app/API";
+import axios from "axios";
 
-export const getUserAuth = createAsyncThunk("user/getUserAuth", async () => {
-  const response = await API.get(`/users/auth`);
-  return response.data;
-});
-
-export const getUsers = createAsyncThunk(
-  "user/getUsers",
-  async ({ limit, q }) => {
-    const response = await API.get(`/users?q=${q}&limit=${limit}`);
-    return response.data;
-  }
-);
-
-export const getUser = createAsyncThunk("user/getUser", async (id) => {
-  const response = await API.get(`users/${id}`);
-  return response.data;
-});
-
-export const userLogin = createAsyncThunk(
-  "user/login",
-  async ({ username, password }, { rejectWithValue }) => {
+export const logIn = createAsyncThunk(
+  "auth/logIn",
+  async ({ username, password, navigate }, { rejectWithValue }) => {
     try {
-      const response = await API.post(`/users/login`, {
-        username,
-        password,
-      });
-      localStorage.setItem("userToken", JSON.stringify(response.data));
-      return response.data;
+      const response = await axios.post("/auth", { username, password });
+      navigate("/");
+
+      return response.data.accessToken;
     } catch (err) {
-      const message = err.response.data;
-      return rejectWithValue(message);
+      console.clear();
+      return rejectWithValue(err.response.data.message);
     }
   }
 );
 
-export const userRegister = createAsyncThunk(
-  "user/userRegister",
-  async (
-    { name, address, business_type, username, role, password },
-    { rejectWithValue }
-  ) => {
+export const refresh = createAsyncThunk(
+  "auth/refresh",
+  async (args, { rejectWithValue }) => {
     try {
-      const response = await API.post(`/users/register`, {
-        name,
-        address,
-        business_type,
-        username,
-        role,
-        password,
-      });
-      localStorage.setItem("userToken", JSON.stringify(response.data));
+      const response = await axios.get("/auth/refresh");
+      return response.data.accessToken;
+    } catch (err) {
+      console.clear();
+      return rejectWithValue(err.response.data.message);
+    }
+  }
+);
+
+export const logOut = createAsyncThunk(
+  "auth/logOut",
+  async (navigate, { rejectWithValue }) => {
+    try {
+      const response = await axios.post("/auth/logout");
+      await navigate("/auth");
+
       return response.data;
     } catch (err) {
-      const message = err.response.data;
-      return rejectWithValue(message);
+      console.clear();
+      return rejectWithValue(err.response.data.message);
     }
   }
 );

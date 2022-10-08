@@ -1,30 +1,35 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { updateToggle } from "../../../features/toggle/toggleMenuSlice";
-import { logout } from "../../../features/auth/authSlice";
 import { CgMenu } from "react-icons/cg";
 import { AiOutlineLogout } from "react-icons/ai";
+import { FiUser } from "react-icons/fi";
 import { Image } from "../atoms";
 import { Logo } from "../../../assets/images";
 import Drawer from "./Drawer";
-import { getUserAuth } from "../../../features/auth/authActions";
 import { Spinner } from "flowbite-react";
+import jwt_decode from "jwt-decode";
+import { logOut } from "../../../features/auth/authActions";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [dropdown, setDropdown] = useState(false);
+  const [userAuth, setUserAuth] = useState(null);
 
-  const { userToken, userAuth } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    userToken && dispatch(getUserAuth());
-  }, [userToken, dispatch]);
+    if (token) {
+      const decoded = jwt_decode(token);
+      setUserAuth(decoded.UserInfo);
+    }
+  }, [token]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(logout());
-    window.location.reload();
+    dispatch(logOut(navigate));
   };
 
   return (
@@ -69,17 +74,16 @@ const Navbar = () => {
                 >
                   <div className="py-1" role="none">
                     <div
-                      className="flex px-4 py-2 bg-white text-gray-700 whitespace-nowrap overflow-hidden text-sm"
+                      className="mb-1 mx-1 py-2 px-4 flex justify-start items-center gap-5 rounded bg-slate-100 box-border overflow-hidden whitespace-nowrap text-slate-800 text-sm"
                       role="menuitem"
                       tabIndex="-1"
                       id="menu-item-0"
                     >
-                      <span>{userAuth.name}</span>
-                      <div className="pr-4 px-1 absolute right-0 bg-white">
-                        ...
-                      </div>
+                      <FiUser />
+                      <span className="flex-1 box-border text-ellipsis overflow-hidden">
+                        {userAuth.name}
+                      </span>
                     </div>
-                    <hr />
                     <form onSubmit={handleSubmit}>
                       <button
                         type="submit"
@@ -99,7 +103,7 @@ const Navbar = () => {
               </>
             )}
             {!userAuth && (
-              <Link to={"/auth/login"}>
+              <Link to={"/auth"}>
                 <div className="h-8 w-8 rounded-full flex items-center justify-center">
                   <Spinner size="md" />
                 </div>

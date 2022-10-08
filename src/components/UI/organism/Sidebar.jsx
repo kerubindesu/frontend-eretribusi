@@ -9,7 +9,7 @@ const Sidebar = () => {
         {/* Top */}
         <div className="w-full h-full flex flex-col justify-between items-start">
           <NavbarMenu />
-          <Footer />
+          <Footer variant={"justify-start"} />
         </div>
       </section>
     </>

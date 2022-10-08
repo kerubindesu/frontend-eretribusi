@@ -1,15 +1,20 @@
-import { useLocation, Navigate, Outlet } from "react-router-dom";
+import { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectCurrentToken } from "../features/auth/authSlice";
 
 const RequireAuth = () => {
-  const token = useSelector(selectCurrentToken);
+  const navigate = useNavigate();
 
-  const location = useLocation();
-  return token ? (
-    <Outlet />
-  ) : (
-    <Navigate to="/auth/login" state={{ from: location }} replace />
+  const { refreshError } = useSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (refreshError) navigate("/auth");
+  }, [refreshError, navigate]);
+
+  return (
+    <>
+      <Outlet />
+    </>
   );
 };
 

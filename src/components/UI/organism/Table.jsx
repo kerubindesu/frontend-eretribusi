@@ -4,9 +4,8 @@ import { Link } from "react-router-dom";
 import { GlobalFilter } from "../../../config";
 import { Button, Heading } from "../atoms";
 import { MdOutlineDataSaverOn } from "react-icons/md";
-import { Spinner } from "flowbite-react";
 
-const Table = ({ items, totalItems, title, action, setQuery }) => {
+const Table = ({ items, title, action, setQuery }) => {
   const data = useMemo(() => [...items], [items]);
 
   const columns = useMemo(
@@ -27,13 +26,27 @@ const Table = ({ items, totalItems, title, action, setQuery }) => {
                   </>
                 ),
               };
-            if (key === "#")
+            if (key === "#" || key === "Tenggat Waktu")
               return {
                 Header: key,
                 accessor: key,
                 Cell: ({ value }) => (
                   <>
                     <div className="text-center">{value}</div>
+                  </>
+                ),
+              };
+            if (key === "ID Tagihan")
+              return {
+                Header: key,
+                accessor: key,
+                Cell: ({ row, value }) => (
+                  <>
+                    <Link to={`${row.values.id}`}>
+                      <div className="text-right font-semibold text-sky-400 underline">
+                        {value}
+                      </div>
+                    </Link>
                   </>
                 ),
               };
@@ -104,85 +117,70 @@ const Table = ({ items, totalItems, title, action, setQuery }) => {
       <div className="w-full flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="w-full flex flex-col items-start justify-center">
           <Heading text={title} variant={"text-xl"} />
-          <small className="text-gray-500">
-            Menampilkan {preGlobalFilteredRows.length} dari {totalItems} data{" "}
-            {title}
-          </small>
         </div>
-        <div className="w-full flex gap-4 justify-between items-center">
-          <GlobalFilter
-            preGlobalFilteredRows={preGlobalFilteredRows}
-            setGlobalFilter={setGlobalFilter}
-            globalFilter={state.globalFilter}
-            setQuery={setQuery}
-            totalItems={totalItems}
-          />
-          <Link to="add">
+        <div className="w-full flex flex-row-reverse gap-4 justify-between items-center">
+          <Link className={`${title === "Pengguna" && "hidden"}`} to="add">
             <Button
               variant={"bg-sky-400 hover:bg-sky-500 rounded text-white"}
               text={title}
               icon={<MdOutlineDataSaverOn />}
             />
           </Link>
+          <GlobalFilter
+            preGlobalFilteredRows={preGlobalFilteredRows}
+            setGlobalFilter={setGlobalFilter}
+            globalFilter={state.globalFilter}
+            setQuery={setQuery}
+          />
         </div>
       </div>
-      {preGlobalFilteredRows.length <= 0 ? (
-        <div className="absolute inset-0 flex justify-center items-center -z-10">
-          <Spinner />
-        </div>
-      ) : (
-        <div className="mt-2 overflow-x-auto relative flex flex-col">
-          <table
-            {...getTableProps()}
-            className="w-full text-left text-gray-500 whitespace-nowrap"
-          >
-            <thead className="text-xs text-gray-700 bg-gray-50">
-              {headerGroups.map((headerGroup) => (
-                <tr
-                  {...headerGroup.getHeaderGroupProps()}
-                  className="border text-center"
-                >
-                  {headerGroup.headers.map((column) => (
-                    <th
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
-                      scope="col"
-                      className="py-3 px-2"
-                    >
-                      {column.render("Header")}
-                      {column.isSorted
-                        ? column.isSortedDesc
-                          ? " ▾"
-                          : " ▴"
-                        : ""}
-                    </th>
-                  ))}
+      <div className="mt-2 overflow-x-auto relative flex flex-col">
+        <table
+          {...getTableProps()}
+          className="w-full text-left text-gray-500 whitespace-nowrap border"
+        >
+          <thead className="text-xs text-gray-700">
+            {headerGroups.map((headerGroup) => (
+              <tr
+                {...headerGroup.getHeaderGroupProps()}
+                className="text-center"
+              >
+                {headerGroup.headers.map((column) => (
+                  <th
+                    {...column.getHeaderProps(column.getSortByToggleProps())}
+                    scope="col"
+                    className="py-3 px-2"
+                  >
+                    {column.render("Header")}
+                    {column.isSorted ? (column.isSortedDesc ? " ▾" : " ▴") : ""}
+                  </th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+
+          <tbody {...getTableBodyProps()}>
+            {rows.map((row) => {
+              prepareRow(row);
+
+              return (
+                <tr {...row.getRowProps()} className="border-y">
+                  {row.cells.map((cell) => {
+                    return (
+                      <td
+                        {...cell.getCellProps()}
+                        className="p-4 max-w-[16rem] text-ellipsis overflow-hidden border"
+                      >
+                        {cell.render("Cell")}
+                      </td>
+                    );
+                  })}
                 </tr>
-              ))}
-            </thead>
-
-            <tbody {...getTableBodyProps()}>
-              {rows.map((row) => {
-                prepareRow(row);
-
-                return (
-                  <tr {...row.getRowProps()}>
-                    {row.cells.map((cell) => {
-                      return (
-                        <td
-                          {...cell.getCellProps()}
-                          className="p-4 max-w-[16rem] text-ellipsis overflow-hidden border"
-                        >
-                          {cell.render("Cell")}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-      )}
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </>
   );
 };

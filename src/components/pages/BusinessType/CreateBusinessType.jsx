@@ -5,7 +5,7 @@ import { BiArrowBack } from "react-icons/bi";
 import { Button, Heading, TabTitle } from "../../UI/atoms";
 import { FloatingLabel } from "../../UI/molecules";
 import { Alert } from "../../UI/organism";
-import { createBusinessType } from "../../../features/businessTypes/businessTypesActions";
+import { createBusinessType } from "../../../features/businessTypes/businessTypeActions";
 import { Spinner } from "flowbite-react";
 
 const CreateBusinessType = () => {
@@ -60,15 +60,15 @@ const CreateBusinessType = () => {
               disabled={isLoading}
               type={"submit"}
               variant={"bg-sky-400 hover:bg-sky-500 text-white"}
-              text={!isLoading && "Tambahkan"}
+              text={!isLoading && "Buat"}
               icon={isLoading && <Spinner />}
             />
           </div>
           <div className="col-span-3 sm:col-span-2">
             {isError && (
               <Alert
-                message={isError.data}
-                variant={"text-orange-700 bg-red-100 border border-orange-700"}
+                message={isError}
+                variant={"text-slate-500 border border-slate-300"}
               />
             )}
           </div>

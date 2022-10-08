@@ -1,90 +1,66 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUsers, userRegister, userLogin, getUserAuth } from "./authActions";
+import { logIn, refresh, logOut } from "./authActions";
 
-const userToken = JSON.parse(localStorage.getItem("userToken"))
-  ? JSON.parse(localStorage.getItem("userToken"))
-  : null;
-
-export const authSlice = createSlice({
+const authSlice = createSlice({
   name: "auth",
   initialState: {
-    loading: false,
-    userToken: userToken,
-    userAuth: "",
-    success: false,
-    error: "",
-    users: "",
+    token: null,
+    isLoading: false,
+    isError: "",
+    refreshError: "",
   },
   reducers: {
-    logout: (state) => {
-      localStorage.removeItem("userToken");
-      state.loading = false;
-      state.userAuth = null;
-      state.error = null;
+    setCredentials: (state, { payload }) => {
+      state.token = payload;
+    },
+    logOut: (state, action) => {
+      state.token = null;
     },
   },
   extraReducers: {
-    // getUsers
-    [getUsers.pending]: (state) => {
-      state.loading = true;
+    [logIn.pending]: (state) => {
+      state.isLoading = true;
     },
-    [getUsers.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.success = true;
-      state.users = payload;
+    [logIn.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      state.token = payload;
+      state.isError = "";
+      state.refreshError = "";
     },
-    [getUsers.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.error = payload;
-    },
-
-    // userRegister
-    [userRegister.pending]: (state) => {
-      state.loading = true;
-    },
-    [userRegister.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.userToken = payload.userToken;
-      state.success = true;
-      state.userAuth = payload;
-    },
-    [userRegister.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.error = payload;
+    [logIn.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      state.isError = payload;
     },
 
-    // userLogin
-    [userLogin.pending]: (state) => {
-      state.loading = true;
+    [refresh.pending]: (state) => {
+      state.isLoading = true;
     },
-    [userLogin.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.userAuth = payload;
-      state.userToken = payload.userToken;
-      state.success = true;
+    [refresh.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      state.token = payload;
+      state.refreshError = "";
     },
-    [userLogin.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.error = payload;
+    [refresh.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      state.refreshError = payload;
     },
 
-    // getUserAuth
-    [getUserAuth.pending]: (state) => {
-      state.loading = true;
+    [logOut.pending]: (state) => {
+      state.isLoading = true;
     },
-    [getUserAuth.fulfilled]: (state, { payload }) => {
-      state.loading = false;
-      state.userAuth = payload;
+    [logOut.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.token = null;
     },
-    [getUserAuth.rejected]: (state, { payload }) => {
-      state.loading = false;
-      state.error = payload;
+    [logOut.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      state.isError = payload;
     },
   },
 });
 
-export const { logout } = authSlice.actions;
-
-export const selectCurrentToken = (state) => state.auth.userToken;
+export const { setCredentials } = authSlice.actions;
 
 export default authSlice.reducer;
+
+export const selectCurrentToken = (state) => state.auth.token;

@@ -8,10 +8,7 @@ import Select from "react-select";
 import { Spinner } from "flowbite-react";
 import { Alert } from "../../UI/organism";
 import { RandomString } from "../../../config/RandomString";
-import {
-  getStallById,
-  updateStall,
-} from "../../../features/stalls/stallsActions";
+import { getStall, updateStall } from "../../../features/stalls/stallActions";
 
 const UpdateStall = () => {
   TabTitle("Edit Kios/Los");
@@ -26,7 +23,7 @@ const UpdateStall = () => {
   const { isLoading, isError, stall } = useSelector((state) => state.stalls); // payload
 
   useEffect(() => {
-    dispatch(getStallById(id));
+    dispatch(getStall(id));
   }, [id, dispatch]);
 
   useEffect(() => {
@@ -55,12 +52,11 @@ const UpdateStall = () => {
   };
 
   const options = [
-    { value: "KIOS", label: "KIOS" },
-    { value: "LOS", label: "LOS" },
+    { value: "kios", label: "KIOS" },
+    { value: "los", label: "LOS" },
   ];
 
   if (isError.status === 404) {
-    console.log(isError);
     const randomString = RandomString(128);
     TabTitle(randomString);
 
@@ -135,13 +131,11 @@ const UpdateStall = () => {
                   icon={isLoading && <Spinner />}
                 />
               </div>
-              <div className="my-2 w-full">
+              <div className="my-4 w-full">
                 {isError && (
                   <Alert
-                    message={isError.data}
-                    variant={
-                      "text-orange-700 bg-red-100 border border-orange-700"
-                    }
+                    message={isError}
+                    variant={"text-slate-500 border border-slate-300"}
                   />
                 )}
               </div>

@@ -6,14 +6,11 @@ import { Button, Heading, TabTitle } from "../../UI/atoms";
 import { FloatingLabel } from "../../UI/molecules";
 import { Alert } from "../../UI/organism";
 import {
-  getRetributionById,
+  getRetribution,
   updateRetribution,
-} from "../../../features/retributions/retributionsActions";
-import {
-  getStalls,
-  getStallById,
-} from "../../../features/stalls/stallsActions";
-import { getBusinessTypes } from "../../../features/businessTypes/businessTypesActions";
+} from "../../../features/retributions/retributionActions";
+import { getStall, getFreeStalls } from "../../../features/stalls/stallActions";
+import { getBusinessTypes } from "../../../features/businessTypes/businessTypeActions";
 import Select from "react-select";
 import { Spinner } from "flowbite-react";
 import { RandomString } from "../../../config";
@@ -26,8 +23,6 @@ const UpdateRetribution = () => {
   const [stall_size, setStallSize] = useState("");
   const [stall_cost, setStallCost] = useState("");
   const [waste_cost, setWasteCost] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [address, setAddress] = useState("");
   const [business_type, setBusinessType] = useState("");
@@ -42,15 +37,15 @@ const UpdateRetribution = () => {
   const { businessTypes } = useSelector((state) => state.businessTypes);
 
   useEffect(() => {
-    dispatch(getRetributionById(id));
+    dispatch(getRetribution(id));
   }, [id, dispatch]);
 
   useEffect(() => {
-    dispatch(getStalls({ q: "" }));
-  }, [dispatch]);
+    retribution && dispatch(getFreeStalls({ q: retribution.stall._id }));
+  }, [retribution, dispatch]);
 
   useEffect(() => {
-    stall_id && dispatch(getStallById(stall_id));
+    stall_id && dispatch(getStall(stall_id));
   }, [dispatch, stall_id]);
 
   useEffect(() => {
@@ -60,10 +55,6 @@ const UpdateRetribution = () => {
   useEffect(() => {
     if (retribution) {
       setStallId(retribution.stall._id);
-      setStallSize(retribution.stall.size);
-      setStallCost(retribution.stall.stall_cost);
-      setWasteCost(retribution.stall.waste_cost);
-      setUsername(retribution.user.username);
       setName(retribution.user.name);
       setAddress(retribution.user.address);
       setBusinessType(retribution.user.business_type);
@@ -77,20 +68,14 @@ const UpdateRetribution = () => {
       setWasteCost(
         `Rp ${stall.waste_cost} ${stall.type === "kios" ? "(perbulan)" : ""}`
       );
-      setUsername(
-        `user_${stall.name.toLowerCase()}${stall.type.toLowerCase()}`
-      );
-      setPassword(`passWord2022!`);
     }
 
-    if (!stall_id) {
+    if (!stall) {
       setStallSize("");
       setStallCost("");
       setWasteCost("");
-      setUsername("");
-      setPassword("");
     }
-  }, [stall, stall_id]);
+  }, [stall]);
 
   const updateData = {
     stall_id: stall_id,
@@ -110,25 +95,21 @@ const UpdateRetribution = () => {
     );
   };
 
-  const stallOptions =
-    stalls &&
-    stalls.data.map((item) => {
-      return {
-        value: item._id,
-        label: `${item.type.toUpperCase()} ${item.name}`,
-      };
-    });
+  const stallOptions = stalls?.data?.map((item) => {
+    return {
+      value: item._id,
+      label: `${item.type.toUpperCase()} ${item.name}`,
+    };
+  });
 
-  const businessTypeOptions =
-    businessTypes &&
-    businessTypes.data.map((item) => {
-      return {
-        value: item.name,
-        label: item.name,
-      };
-    });
+  const businessTypeOptions = businessTypes?.data?.map((item) => {
+    return {
+      value: item.name,
+      label: item.name,
+    };
+  });
 
-  if (isError.status === 404) {
+  if (isError?.status === 404) {
     const randomString = RandomString(128);
     TabTitle(randomString);
 
@@ -136,7 +117,7 @@ const UpdateRetribution = () => {
   } else {
     return (
       <>
-        <div>
+        <div className="flex-1 relative">
           <div className="mb-8 flex items-center gap-4">
             <Link to={-1}>
               <BiArrowBack />
@@ -187,12 +168,9 @@ const UpdateRetribution = () => {
                       },
                     }),
                   }}
-                  value={
-                    businessTypeOptions &&
-                    businessTypeOptions.map((option) =>
-                      option.value === business_type ? option : ""
-                    )
-                  }
+                  value={businessTypeOptions?.map((option) =>
+                    option.value === business_type ? option : ""
+                  )}
                   onChange={(e) => {
                     setBusinessType(e.value);
                   }}
@@ -217,36 +195,23 @@ const UpdateRetribution = () => {
                       },
                     }),
                   }}
-                  value={
-                    stallOptions &&
-                    stallOptions.map((option) =>
-                      option.value === stall_id ? option : ""
-                    )
-                  }
+                  value={stallOptions?.map((option) =>
+                    option.value === stall_id ? option : ""
+                  )}
                   onChange={(e) => {
                     setStallId(e.value);
                   }}
-                  placeholder="Pilih lapak ..."
+                  placeholder={
+                    isLoading && (
+                      <div className="flex justify-center items-center gap-2">
+                        <Spinner size={"sm"} />
+                      </div>
+                    )
+                  }
                 />
               </div>
 
               <div className="mb-4 pt-6 px-4 relative border rounded-sm bg-slate-50 grid sm:grid-cols-2 gap-x-4 -z-10">
-                <FloatingLabel
-                  type={"text"}
-                  id={"username"}
-                  value={username}
-                  htmlFor={"username"}
-                  text={"Username"}
-                  readOnly={true}
-                />
-                <FloatingLabel
-                  type={"text"}
-                  id={"password"}
-                  value={password}
-                  htmlFor={"password"}
-                  text={"Password"}
-                  readOnly={true}
-                />
                 <FloatingLabel
                   type={"text"}
                   id={"stall_size"}
@@ -281,13 +246,11 @@ const UpdateRetribution = () => {
                   icon={isLoading && <Spinner />}
                 />
               </div>
-              <div className="my-2 w-full">
+              <div className="my-4 w-full">
                 {isError && (
                   <Alert
-                    message={isError.data}
-                    variant={
-                      "text-orange-500 bg-orange-50 border border-orange-500"
-                    }
+                    message={isError}
+                    variant={"text-slate-500 border border-slate-300"}
                   />
                 )}
               </div>

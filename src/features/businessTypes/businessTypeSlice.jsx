@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   getBusinessTypes,
-  getBusinessTypeById,
+  getBusinessType,
   createBusinessType,
   updateBusinessType,
   deleteBusinessType,
-} from "./businessTypesActions";
+} from "./businessTypeActions";
 
-export const businessTypesSlice = createSlice({
+export const businessTypeSlice = createSlice({
   name: "businessTypes",
   initialState: {
     isLoading: false,
@@ -30,14 +30,14 @@ export const businessTypesSlice = createSlice({
       state.isError = payload;
     },
     // GET Single
-    [getBusinessTypeById.pending]: (state) => {
+    [getBusinessType.pending]: (state) => {
       state.isLoading = true;
     },
-    [getBusinessTypeById.fulfilled]: (state, { payload }) => {
+    [getBusinessType.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
       state.businessType = payload;
     },
-    [getBusinessTypeById.rejected]: (state, { payload }) => {
+    [getBusinessType.rejected]: (state, { payload }) => {
       state.isLoading = false;
       state.isError = payload;
     },
@@ -77,4 +77,4 @@ export const businessTypesSlice = createSlice({
   },
 });
 
-export default businessTypesSlice.reducer;
+export default businessTypeSlice.reducer;

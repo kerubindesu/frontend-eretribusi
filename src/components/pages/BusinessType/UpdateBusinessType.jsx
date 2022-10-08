@@ -8,9 +8,9 @@ import { Spinner } from "flowbite-react";
 import { Alert } from "../../UI/organism";
 import { RandomString } from "../../../config/RandomString";
 import {
-  getBusinessTypeById,
+  getBusinessType,
   updateBusinessType,
-} from "../../../features/businessTypes/businessTypesActions";
+} from "../../../features/businessTypes/businessTypeActions";
 
 const UpdateBusinessType = () => {
   TabTitle("Edit Kios/Los");
@@ -25,7 +25,7 @@ const UpdateBusinessType = () => {
   ); // payload
 
   useEffect(() => {
-    dispatch(getBusinessTypeById(id));
+    dispatch(getBusinessType(id));
   }, [id, dispatch]);
 
   useEffect(() => {
@@ -50,7 +50,6 @@ const UpdateBusinessType = () => {
   };
 
   if (isError.status === 404) {
-    console.log(isError);
     const randomString = RandomString(128);
     TabTitle(randomString);
 
@@ -91,10 +90,8 @@ const UpdateBusinessType = () => {
             <div className="col-span-3 sm:col-span-2">
               {isError && (
                 <Alert
-                  message={isError.data}
-                  variant={
-                    "text-orange-700 bg-red-100 border border-orange-700"
-                  }
+                  message={isError}
+                  variant={"text-slate-500 border border-slate-300"}
                 />
               )}
             </div>

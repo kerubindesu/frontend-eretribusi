@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   getStalls,
-  getStallById,
+  getFreeStalls,
+  getStall,
   createStall,
   updateStall,
   deleteStall,
-} from "./stallsActions";
+} from "./stallActions";
 
-export const stallsSlice = createSlice({
+export const stallSlice = createSlice({
   name: "stalls",
   initialState: {
     isLoading: false,
@@ -29,15 +30,28 @@ export const stallsSlice = createSlice({
       state.isLoading = false;
       state.isError = payload;
     },
-    // GET Single
-    [getStallById.pending]: (state) => {
+    // GET All Free Stalls
+    [getFreeStalls.pending]: (state) => {
       state.isLoading = true;
     },
-    [getStallById.fulfilled]: (state, { payload }) => {
+    [getFreeStalls.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      state.stalls = payload;
+      state.isError = "";
+    },
+    [getFreeStalls.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      state.isError = payload;
+    },
+    // GET Single
+    [getStall.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getStall.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
       state.stall = payload;
     },
-    [getStallById.rejected]: (state, { payload }) => {
+    [getStall.rejected]: (state, { payload }) => {
       state.isLoading = false;
       state.isError = payload;
     },
@@ -77,4 +91,4 @@ export const stallsSlice = createSlice({
   },
 });
 
-export default stallsSlice.reducer;
+export default stallSlice.reducer;

@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   getRoles,
-  getRoleById,
+  getRole,
   createRole,
   updateRole,
   deleteRole,
-} from "./rolesActions";
+} from "./roleActions";
 
-export const rolesSlice = createSlice({
+export const roleSlice = createSlice({
   name: "roles",
   initialState: {
     isLoading: false,
@@ -30,14 +30,14 @@ export const rolesSlice = createSlice({
       state.isError = payload;
     },
     // GET Single
-    [getRoleById.pending]: (state) => {
+    [getRole.pending]: (state) => {
       state.isLoading = true;
     },
-    [getRoleById.fulfilled]: (state, { payload }) => {
+    [getRole.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
       state.role = payload;
     },
-    [getRoleById.rejected]: (state, { payload }) => {
+    [getRole.rejected]: (state, { payload }) => {
       state.isLoading = false;
       state.isError = payload;
     },
@@ -77,4 +77,4 @@ export const rolesSlice = createSlice({
   },
 });
 
-export default rolesSlice.reducer;
+export default roleSlice.reducer;

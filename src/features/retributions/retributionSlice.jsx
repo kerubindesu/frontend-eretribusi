@@ -1,18 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   getRetributions,
-  getRetributionById,
+  getRetribution,
+  getUserRetribution,
   updateRetribution,
   createRetribution,
   deleteRetribution,
-} from "./retributionsActions";
+} from "./retributionActions";
 
-export const retributionsSlice = createSlice({
+export const retributionSlice = createSlice({
   name: "retributions",
   initialState: {
     isLoading: false,
     retributions: "",
     retribution: "",
+    retributionUser: "",
     isError: "",
   },
   extraReducers: {
@@ -30,14 +32,26 @@ export const retributionsSlice = createSlice({
       state.isError = payload;
     },
     // GET Single
-    [getRetributionById.pending]: (state) => {
+    [getRetribution.pending]: (state) => {
       state.isLoading = true;
     },
-    [getRetributionById.fulfilled]: (state, { payload }) => {
+    [getRetribution.fulfilled]: (state, { payload }) => {
       state.isLoading = false;
       state.retribution = payload;
     },
-    [getRetributionById.rejected]: (state, { payload }) => {
+    [getRetribution.rejected]: (state, { payload }) => {
+      state.isLoading = false;
+      state.isError = payload;
+    },
+    // GET Single
+    [getUserRetribution.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getUserRetribution.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      state.retribution = payload;
+    },
+    [getUserRetribution.rejected]: (state, { payload }) => {
       state.isLoading = false;
       state.isError = payload;
     },
@@ -77,4 +91,4 @@ export const retributionsSlice = createSlice({
   },
 });
 
-export default retributionsSlice.reducer;
+export default retributionSlice.reducer;

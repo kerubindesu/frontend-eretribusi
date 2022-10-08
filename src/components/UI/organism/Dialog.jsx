@@ -31,20 +31,20 @@ const Dialog = ({ message, confirm }) => {
               </span>
               <div className="flex justify-between">
                 <button
-                  onClick={() => dispatch(setModal(false))}
-                  data-modal-toggle="popup-modal"
-                  type="button"
-                  className="px-4 py-2 text-sky-500 hover:bg-gray-100 font-medium rounded-xs hover:text-gray-900 focus:z-10 border border-slate-100"
-                >
-                  Tidak
-                </button>
-                <button
                   onClick={confirm}
                   data-modal-toggle="popup-modal"
                   type="button"
-                  className="px-4 py-2 text-gray-500 hover:bg-gray-100 font-medium rounded-xs inline-flex items-center text-center"
+                  className="px-4 py-2 text-sky-400 hover:text-sky-500 hover:bg-gray-50 font-medium rounded-xs focus:z-10"
                 >
                   Hapus
+                </button>
+                <button
+                  onClick={() => dispatch(setModal(false))}
+                  data-modal-toggle="popup-modal"
+                  type="button"
+                  className="px-4 py-2 text-gray-500 font-medium rounded-xs hover:text-gray-900 focus:z-10"
+                >
+                  Tidak
                 </button>
               </div>
             </div>

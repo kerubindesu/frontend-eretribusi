@@ -5,12 +5,9 @@ import { BiArrowBack } from "react-icons/bi";
 import { Button, Heading, TabTitle } from "../../UI/atoms";
 import { FloatingLabel } from "../../UI/molecules";
 import { Alert } from "../../UI/organism";
-import { createRetribution } from "../../../features/retributions/retributionsActions";
-import {
-  getStalls,
-  getStallById,
-} from "../../../features/stalls/stallsActions";
-import { getBusinessTypes } from "../../../features/businessTypes/businessTypesActions";
+import { createRetribution } from "../../../features/retributions/retributionActions";
+import { getStall, getFreeStalls } from "../../../features/stalls/stallActions";
+import { getBusinessTypes } from "../../../features/businessTypes/businessTypeActions";
 import Select from "react-select";
 import { Spinner } from "flowbite-react";
 
@@ -35,11 +32,11 @@ const CreateRetribution = () => {
   const { businessTypes } = useSelector((state) => state.businessTypes);
 
   useEffect(() => {
-    dispatch(getStalls({ q: "" }));
+    dispatch(getFreeStalls({ q: "" }));
   }, [dispatch]);
 
   useEffect(() => {
-    stall_id && dispatch(getStallById(stall_id));
+    stall_id && dispatch(getStall(stall_id));
   }, [dispatch, stall_id]);
 
   useEffect(() => {
@@ -53,9 +50,7 @@ const CreateRetribution = () => {
       setWasteCost(
         `Rp ${stall.waste_cost} ${stall.type === "kios" ? "(perbulan)" : ""}`
       );
-      setUsername(
-        `user_${stall.name.toLowerCase()}${stall.type.toLowerCase()}`
-      );
+      setUsername(`${stall.type.toLowerCase()}${stall.name}`);
       setPassword(`passWord2022!`);
     }
 
@@ -182,7 +177,7 @@ const CreateRetribution = () => {
                 onChange={(e) => {
                   setStallId(e.value);
                 }}
-                placeholder="Pilih lapak ..."
+                placeholder="Pilih tempat retribusi ..."
               />
             </div>
 
@@ -216,7 +211,7 @@ const CreateRetribution = () => {
                 id={"stall_cost"}
                 value={stall_cost}
                 htmlFor={"stall_cost"}
-                text={"Biaya Tempat"}
+                text={"Biaya Tempat "}
                 readOnly={true}
               />
               <FloatingLabel
@@ -233,17 +228,15 @@ const CreateRetribution = () => {
                 disabled={isLoading}
                 type={"submit"}
                 variant={"bg-sky-400 hover:bg-sky-500 text-white"}
-                text={!isLoading && "Tambahkan"}
+                text={!isLoading && "Buat"}
                 icon={isLoading && <Spinner />}
               />
             </div>
-            <div className="my-2 w-full">
+            <div className="my-4 w-full">
               {isError && (
                 <Alert
-                  message={isError.data}
-                  variant={
-                    "text-orange-500 bg-orange-50 border border-orange-500"
-                  }
+                  message={isError}
+                  variant={"text-slate-500 border border-slate-300"}
                 />
               )}
             </div>

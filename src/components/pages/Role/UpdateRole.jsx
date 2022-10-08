@@ -7,7 +7,7 @@ import { FloatingLabel } from "../../UI/molecules";
 import { Spinner } from "flowbite-react";
 import { Alert } from "../../UI/organism";
 import { RandomString } from "../../../config/RandomString";
-import { getRoleById, updateRole } from "../../../features/roles/rolesActions";
+import { getRole, updateRole } from "../../../features/roles/roleActions";
 
 const UpdateRole = () => {
   TabTitle("Edit Role");
@@ -20,7 +20,7 @@ const UpdateRole = () => {
   const { isLoading, isError, role } = useSelector((state) => state.roles); // payload
 
   useEffect(() => {
-    dispatch(getRoleById(id));
+    dispatch(getRole(id));
   }, [id, dispatch]);
 
   useEffect(() => {
@@ -45,7 +45,6 @@ const UpdateRole = () => {
   };
 
   if (isError.status === 404) {
-    console.log(isError);
     const randomString = RandomString(128);
     TabTitle(randomString);
 
@@ -86,10 +85,8 @@ const UpdateRole = () => {
             <div className="col-span-3 sm:col-span-2">
               {isError && (
                 <Alert
-                  message={isError.data}
-                  variant={
-                    "text-orange-700 bg-red-100 border border-orange-700"
-                  }
+                  message={isError}
+                  variant={"text-slate-500 border border-slate-300"}
                 />
               )}
             </div>

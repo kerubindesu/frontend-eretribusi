@@ -8,10 +8,11 @@ const FloatingLabel = ({
   text,
   onChange,
   readOnly,
+  variant,
 }) => {
   return (
     <>
-      <div className="relative z-0 mb-6 w-full group text-sm">
+      <div className={`relative z-0 mb-6 w-full group text-sm ${variant}`}>
         <input
           type={type}
           value={value}
