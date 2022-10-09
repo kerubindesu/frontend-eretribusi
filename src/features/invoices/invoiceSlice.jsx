@@ -4,6 +4,7 @@ import {
   getUserInvoices,
   getInvoice,
   chargeInvoice,
+  getIncome,
 } from "./invoiceActions";
 
 export const invoiceSlice = createSlice({
@@ -14,6 +15,7 @@ export const invoiceSlice = createSlice({
     invoice: "",
     isError: "",
     chargeLoading: false,
+    income: "",
   },
   extraReducers: {
     // GET All
@@ -64,6 +66,19 @@ export const invoiceSlice = createSlice({
     },
     [chargeInvoice.rejected]: (state, { payload }) => {
       state.chargeLoading = false;
+      state.isError = payload;
+    },
+    // GET Income
+    [getIncome.pending]: (state) => {
+      state.isLoading = true;
+    },
+    [getIncome.fulfilled]: (state, { payload }) => {
+      state.isLoading = false;
+      state.income = payload;
+      state.isError = "";
+    },
+    [getIncome.rejected]: (state, { payload }) => {
+      state.isLoading = false;
       state.isError = payload;
     },
   },

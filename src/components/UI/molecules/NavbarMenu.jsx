@@ -8,14 +8,14 @@ import { useSelector } from "react-redux";
 import jwt_decode from "jwt-decode";
 
 const NavbarMenu = () => {
-  const [userAuth, setUserAuth] = useState(null);
+  const [user, setUser] = useState(null);
 
   const { token } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (token) {
       const decoded = jwt_decode(token);
-      setUserAuth(decoded.UserInfo);
+      setUser(decoded.UserInfo);
     }
   }, [token]);
 
@@ -31,7 +31,7 @@ const NavbarMenu = () => {
         <NavbarItem to={"bills"} icon={<RiBillLine />} text={"Tagihan"} />
 
         {/* Admin access */}
-        {userAuth?.role === "Admin" && (
+        {user?.role === "Admin" && (
           <>
             <NavbarItem
               to={"retributions"}

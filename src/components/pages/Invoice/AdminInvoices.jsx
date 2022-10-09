@@ -10,31 +10,36 @@ import InfiniteScroll from "react-infinite-scroll-component";
 const AdminInvoices = () => {
   TabTitle("Invoices");
 
-  const dispatch = useDispatch();
-
   const [limit, setLimit] = useState(32);
   const [hasMore, setHasMore] = useState(true);
   const [q, setQuery] = useState("");
   const [items, setItems] = useState("");
 
+  // ambil data invoices dari global state
   const { invoices } = useSelector((state) => state.invoices);
   const totalItems = invoices.totalItems;
 
-  useEffect(() => {
-    if (limit >= totalItems) return setHasMore(false);
-  }, [limit, totalItems]);
-
-  const fetchMoreData = () => {
-    if (limit <= totalItems) return setLimit(limit + 10);
-  };
-
+  // Dispatch
+  const dispatch = useDispatch();
+  // dispatch invoices
   useEffect(() => {
     dispatch(getInvoices({ limit, q }));
   }, [limit, q, dispatch]);
 
+  // isi items, ambil dari invoices
   useEffect(() => {
     setItems(invoices && invoices.data);
   }, [invoices]);
+
+  // Infinite scroll
+  // tambah limit jika limit masih kurang dari totalItems
+  const fetchMoreData = () => {
+    if (limit <= totalItems) return setLimit(limit + 10);
+  };
+  // set false hasMore jika limit sudah mencapai totalItems
+  useEffect(() => {
+    if (limit >= totalItems) return setHasMore(false);
+  }, [limit, totalItems]);
 
   return (
     <div className="flex-1 relative flex flex-col">
@@ -57,7 +62,6 @@ const AdminInvoices = () => {
           Oops, tidak menemukan apa pun di sini!
         </span>
       )}
-
       <InfiniteScroll
         dataLength={items.length}
         next={fetchMoreData}
@@ -69,43 +73,39 @@ const AdminInvoices = () => {
           </span>
         }
       >
-        {items &&
-          items.map((item, index) => (
-            <Link key={index + 1} className="" to={`${item._id}`}>
-              <div className="border mb-4 p-4 w-full shadow-sm hover:shadow bg-white rounded flex justify-between items-center gap-4 md:gap-16 text-xs">
-                <div className="flex-1 flex flex-col md:flex-row gap-y-4 gap-x-2 justify-center md:justify-between items-start md:items-center">
-                  <Field
-                    text={item.order_id}
-                    variant={"w-[8.9rem] font-bold"}
-                  />
-                  <Field text={item.transaction_time} variant={"w-[8rem]"} />
-                  <Field text={item.name} variant={"w-[8rem] font-bold"} />
-                </div>
-                <div className="flex-1 max-w-xs flex flex-col md:flex-row gap-y-4 gap-x-2 justify-center md:justify-between items-end md:items-center text-end md:text-start">
-                  <Field
-                    text={item && item.payment_type.toUpperCase()}
-                    variant={"p-1 w-[5rem] border rounded text-center"}
-                  />
-                  <Field
-                    text={`Rp ${item.total_price}`}
-                    variant={"w-[4.2rem] font-bold"}
-                  />
-                  <Field
-                    text={`${
-                      item.transaction_status === "settlement"
+        <section className="flex flex-col gap-2">
+          {items &&
+            items.map((item, index) => (
+              <Link key={index + 1} to={`${item._id}`}>
+                <div className="p-4 w-full flex justify-around items-center gap-8 bg-white border rounded">
+                  <section className="flex-1 flex flex-col sm:flex-row sm:justify-around items-start sm:items-center gap-2 text-slate-800">
+                    <Field
+                      text={item.order_id}
+                      variant={"w-32 text-xs font-bold"}
+                    />
+                    <Field text={item.name} variant={"w-32 font-bold"} />
+                    <Field text={item.transaction_time} variant={"text-xs"} />
+                  </section>
+                  <section className="flex-1 flex flex-col sm:flex-row sm:justify-between items-end sm:items-center gap-2">
+                    <Field
+                      text={`Rp ${item.total_price}`}
+                      variant={"w-20 font-semibold text-center sm:text-start"}
+                    />
+                    <Field
+                      text={`${item.transaction_status === "settlement"
                         ? "Paid"
                         : "Pending"
-                    }`}
-                    variant={`py-1 px-2 w-[5rem] rounded font-bold text-center ${
-                      item.transaction_status === "settlement"
-                        ? "bg-green-100 text-green-500"
-                        : "bg-orange-100 text-orange-500"
-                    }`}
-                  />
+                        }`}
+                      variant={`py-1 px-2 w-[5rem] border rounded-sm font-bold text-center ${item.transaction_status === "settlement"
+                        ? "bg-green-100 text-green-500 border-green-500"
+                        : "bg-orange-100 text-orange-500 border-orange-500"
+                        }`}
+                    />
+                  </section>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
+        </section>
       </InfiniteScroll>
     </div>
   );

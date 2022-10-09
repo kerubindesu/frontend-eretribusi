@@ -47,3 +47,14 @@ export const chargeInvoice = createAsyncThunk(
     }
   }
 );
+
+export const getIncome = createAsyncThunk(
+  "invoices/getIncome",
+  async ({ startDate, endDate }) => {
+    const response = await axiosJWT.get(
+      `/invoices/income?startDate=${startDate}&endDate=${endDate}`
+    );
+
+    return response.data;
+  }
+);

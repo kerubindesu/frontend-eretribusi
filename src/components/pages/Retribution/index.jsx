@@ -40,18 +40,18 @@ const Retribution = () => {
   useEffect(() => {
     setItems(
       retributions &&
-        retributions.data.map((retribution, index) => {
-          return {
-            "#": index + 1,
-            id: retribution._id,
-            Tipe: retribution.stall ? retribution.stall.type.toUpperCase() : "",
-            Nomor: retribution.stall ? retribution.stall.name : "",
-            Luas: retribution.stall ? retribution.stall.size : "",
-            Nama: retribution.user.name,
-            "Jenis Dagang": retribution.user.business_type,
-            Alamat: retribution.user.address,
-          };
-        })
+      retributions.data.map((retribution, index) => {
+        return {
+          "#": index + 1,
+          id: retribution._id,
+          Tipe: retribution.stall ? retribution.stall.type.toUpperCase() : "",
+          Nomor: retribution.stall ? retribution.stall.name : "",
+          Luas: retribution.stall ? retribution.stall.size : "",
+          Nama: retribution.user.name,
+          "Jenis Dagang": retribution.user.business_type,
+          Alamat: retribution.user.address,
+        };
+      })
     );
   }, [retributions]);
 
