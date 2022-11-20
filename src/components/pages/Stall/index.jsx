@@ -37,19 +37,18 @@ const Stall = () => {
   useEffect(() => {
     setItems(
       stalls &&
-        stalls?.data?.map((stall, index) => {
-          return {
-            "#": index + 1,
-            id: stall._id,
-            Tipe: stall.type.toUpperCase(),
-            Nomor: stall.name,
-            Luas: stall.size,
-            "Biaya Tempat": `Rp ${stall.stall_cost}`,
-            "Biaya Sampah": `Rp ${stall.waste_cost} ${
-              stall.type === "kios" ? "(1 Bulan)" : ""
+      stalls?.data?.map((stall, index) => {
+        return {
+          "#": index + 1,
+          id: stall._id,
+          Tipe: stall.type.toUpperCase(),
+          Kode: stall.name,
+          Luas: stall.size,
+          "Biaya Tempat": `Rp ${stall.stall_cost}`,
+          "Biaya Sampah": `Rp ${stall.waste_cost} ${stall.type === "kios" ? "(1 Bulan)" : ""
             }`,
-          };
-        })
+        };
+      })
     );
   }, [stalls]);
 

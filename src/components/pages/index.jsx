@@ -1,6 +1,5 @@
 import Dashboard from "./Dashboard";
 import NotFound from "./NotFound";
-import Profile from "./Profile";
 import Retribution from "./Retribution";
 import CreateRetribution from "./Retribution/CreateRetribution";
 import UpdateRetribution from "./Retribution/UpdateRetribution";
@@ -40,7 +39,6 @@ export {
   Login,
   Role,
   NotFound,
-  Profile,
   Retribution,
   Stall,
   UpdateBill,

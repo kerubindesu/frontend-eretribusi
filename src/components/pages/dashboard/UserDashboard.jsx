@@ -10,8 +10,6 @@ import { Spinner } from "flowbite-react/lib/esm/components";
 const UserDashboard = () => {
     TabTitle("Dashboard");
 
-    const limit = 10
-
     const dispatch = useDispatch()
     const [items, setItems] = useState("");
 
@@ -28,7 +26,7 @@ const UserDashboard = () => {
     }, [dispatch]);
 
     useEffect(() => {
-        dispatch(getUserInvoices({ limit, q: "" }));
+        dispatch(getUserInvoices({ limit: 10, q: "" }));
     }, [dispatch]);
 
     useEffect(() => {
@@ -40,24 +38,24 @@ const UserDashboard = () => {
             <section className="mb-4">
                 <Heading text={"Dashboard"} variant={"text-xl"} />
             </section>
-            <section className="p-4 flex flex-col items-start justify-center gap-4 bg-sky-50 rounded">
+            <section className="mb-8 p-4 flex flex-col items-start justify-center gap-4 bg-sky-50 border-y-2 border-sky-400 rounded">
                 <div className="w-full flex justify-between items-center">
                     <span className="font-semibold">Hello, {retribution?.user?.name}</span>
                     <span className="font-bold">
                         {`${retribution?.stall?.type?.toUpperCase()} ${retribution?.stall?.name}`}
                     </span>
                 </div>
-                <div className="-ml-4 pl-4 p-2 w-full flex flex-col justify-center items-start gap-2 bg-white rounded-r-full">
+                <div className="-ml-4 p-4 pr-16 w-auto flex flex-col justify-center items-start gap-2 bg-white border-y-2 border-sky-400 rounded-r-full">
                     <span>Total Tagihan</span>
                     <span className="text-2xl font-bold">{bills?.totalItems}</span>
-                    <span className="text-sky-600 font-semibold">
+                    <span className="text-sky-400 font-semibold">
                         <Link to="bills">
-                            {bills?.totalItems <= 0 ? "Tidak ada tagihan saat ini." : "Segera bayar tagihan anda!"}
+                            {bills?.totalItems <= 0 ? "Tidak ada tagihan saat ini" : "Segera bayar tagihan anda!"}
                         </Link>
                     </span>
                 </div>
             </section>
-            <section className="p-4 flex flex-col items-start justify-center gap-4 bg-sky-50 rounded">
+            <section className="py-4 flex flex-col items-start justify-center gap-4 rounded">
                 <span className="font-semibold">Transaksi Terakhir</span>
                 {items && items.length <= 0 && (
                     <span className="w-full h-32 flex justify-center items-center text-lg text-slate-500 font-semibold">
@@ -66,8 +64,8 @@ const UserDashboard = () => {
                 )}
                 {items &&
                     items.map((item, index) => (
-                        <Link key={index + 1} to={`${item._id}`} className="w-full">
-                            <div className="p-4 w-full flex justify-around items-center gap-8 bg-white rounded">
+                        <Link key={index + 1} to={`invoices/${item._id}`} className="w-full">
+                            <div className="p-4 w-full flex justify-around items-center gap-8 bg-white border rounded hover:shadow">
                                 <section className="flex-1 flex flex-col sm:flex-row sm:justify-around items-start sm:items-center gap-2 text-slate-800">
                                     <Field
                                         text={item.order_id}
@@ -86,9 +84,9 @@ const UserDashboard = () => {
                                             ? "Paid"
                                             : "Pending"
                                             }`}
-                                        variant={`py-1 px-2 w-[5rem] border rounded-sm font-bold text-center ${item.transaction_status === "settlement"
-                                            ? "bg-green-100 text-green-500 border-green-500"
-                                            : "bg-orange-100 text-orange-500 border-orange-500"
+                                        variant={`py-1 px-2 w-[5rem] rounded-sm font-bold text-center ${item.transaction_status === "settlement"
+                                            ? "bg-green-100 text-green-500"
+                                            : "bg-orange-100 text-orange-500"
                                             }`}
                                     />
                                 </section>

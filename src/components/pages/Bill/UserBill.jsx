@@ -19,6 +19,7 @@ const UserBill = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [items, setItems] = useState("")
   const [finalDate, setFinalDate] = useState("");
   const [rID, setRId] = useState("");
   const [bID, setBId] = useState("");
@@ -65,7 +66,11 @@ const UserBill = () => {
   }, [q, limit, dispatch]);
 
   useEffect(() => {
-    if (retribution?.stall?.type === "kios") {
+    setItems(bills && bills.data);
+  }, [bills]);
+
+  useEffect(() => {
+    if (retribution && retribution.stall.type === "kios") {
       setStallCost(finalDate * parseInt(retribution.stall.stall_cost));
 
       const amount =
@@ -73,7 +78,7 @@ const UserBill = () => {
         parseInt(retribution.stall.waste_cost);
       setPriceAmount(amount);
     }
-    if (retribution?.stall?.type === "los") {
+    if (retribution && retribution.stall.type === "los") {
       setStallCost(parseInt(retribution.stall.stall_cost));
       const amount =
         parseInt(retribution.stall.stall_cost) +
@@ -125,7 +130,7 @@ const UserBill = () => {
   return (
     <>
       <div className="flex-1 relative flex flex-col">
-        {bills?.data?.length <= 0 && (
+        {items && items.length <= 0 && (
           <span className="absolute inset-0 flex justify-center items-center -z-10 text-lg text-sky-700 font-semibold">
             Oops, tidak menemukan apa pun di sini!
           </span>
@@ -145,7 +150,7 @@ const UserBill = () => {
           />
         </div>
         <InfiniteScroll
-          dataLength={bills && bills.data.length}
+          dataLength={items.length}
           next={fetchMoreData}
           hasMore={hasMore}
           loader={
@@ -155,54 +160,54 @@ const UserBill = () => {
             </span>
           }
         >
-          {bills &&
-            bills.data.map((bill, index) => (
-              <div
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleClick(e);
-                  setBId(bill._id);
-                  setFinalDate(new Date(bill.due_date).getDate());
-                  setTagar(bill.q_bill);
-                  setDrawer(true);
-                }}
-                key={index + 1}
-                className="border mb-4 p-4 w-full shadow-sm hover:shadow bg-white rounded flex justify-between items-center gap-4 text-xs cursor-pointer"
-                to={`${bill._id}/detail`}
-              >
-                <div className="flex flex-col sm:flex-row justify-center items-start gap-2">
-                  <Field
-                    text={`#${bill.q_bill}`}
-                    variant={"w-[4rem] text-start font-bold"}
-                  />
-                  <Field
-                    text={`${bill.stall_type.toUpperCase()} ${
-                      retribution?.stall?.name
-                    }`}
-                    variant={"w-[4rem] text-start"}
-                  />
-                  <Field
-                    text={`${new Date(bill.due_date).toLocaleString("id-id", {
-                      dateStyle: "full",
-                    })}`}
-                    variant={"w-[10rem] font-semibold"}
-                  />
-                </div>
-                <div className="">
-                  <div className="py-2 px-4 rounded bg-sky-400 flex justify-center items-center w-max text-white font-bold">
-                    Bayar
+          <section className="py-4 flex flex-col gap-2">
+            {items &&
+              items.map((item, index) => (
+                <div
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleClick(e);
+                    setBId(item._id);
+                    setFinalDate(new Date(item.due_date).getDate());
+                    setTagar(item.q_bill);
+                    setDrawer(true);
+                  }}
+                  key={index + 1}
+                  className="border p-4 w-full shadow-sm hover:shadow bg-white rounded flex justify-between items-center gap-4 text-xs cursor-pointer"
+                  to={`${item._id}/detail`}
+                >
+                  <div className="flex flex-col sm:flex-row justify-center items-start gap-2">
+                    <Field
+                      text={`#${item.q_bill}`}
+                      variant={"w-[4rem] text-start font-bold"}
+                    />
+                    <Field
+                      text={`${item.stall_type.toUpperCase()} ${retribution && retribution.stall.name
+                        }`}
+                      variant={"w-[4rem] text-start"}
+                    />
+                    <Field
+                      text={`${new Date(item.due_date).toLocaleString("id-id", {
+                        dateStyle: "full",
+                      })}`}
+                      variant={"w-[10rem] font-semibold"}
+                    />
+                  </div>
+                  <div className="">
+                    <div className="py-2 px-4 rounded bg-sky-400 flex justify-center items-center w-max text-white font-bold">
+                      Bayar
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+          </section>
         </InfiniteScroll>
       </div>
 
       {/* Drawer */}
       <div
-        className={`${
-          drawer ? "block" : "hidden"
-        } fixed top-0 bottom-0 right-0 bg-white w-[20rem] z-20 p-4 shadow-lg flex flex-col justify-start items-start gap-4 overflow-y-auto`}
+        className={`${drawer ? "block" : "hidden"
+          } fixed top-0 bottom-0 right-0 bg-white w-[20rem] z-20 p-4 shadow-lg flex flex-col justify-start items-start gap-4 overflow-y-auto`}
       >
         <div className="mb-8 w-full flex justify-start items-center gap-2">
           <BiArrowBack
@@ -317,11 +322,10 @@ const UserBill = () => {
         className={`${drawer ? "fixed inset-0" : "hidden"} z-10`}
       ></div>
       <div
-        className={`${
-          chargeLoading
-            ? "fixed inset-0 z-20 flex justify-center items-center gap-2 bg-black/5 backdrop-blur-sm"
-            : "hidden"
-        }`}
+        className={`${chargeLoading
+          ? "fixed inset-0 z-20 flex justify-center items-center gap-2 bg-black/5 backdrop-blur-sm"
+          : "hidden"
+          }`}
       >
         <Spinner /> Memproses pembayaran...
       </div>

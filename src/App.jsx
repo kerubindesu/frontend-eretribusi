@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Main from "./components/templates/Main";
+import Main from "./components/layouts/Main";
 import {
   Bill,
   CreateBill,

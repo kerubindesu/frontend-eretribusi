@@ -11,9 +11,11 @@ import {
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
 import ChartDataLabels from 'chartjs-plugin-datalabels';
-import { Button, Heading, Input, TabTitle } from "../../UI/atoms";
+import { Button, Field, Heading, Input, TabTitle } from "../../UI/atoms";
 import { useDispatch, useSelector } from "react-redux";
-import { getIncome } from "../../../features/invoices/invoiceActions";
+import { getIncome, getInvoices } from "../../../features/invoices/invoiceActions";
+import { Link } from "react-router-dom";
+import { Spinner } from "flowbite-react/lib/esm/components";
 
 ChartJS.register(
     CategoryScale,
@@ -52,12 +54,21 @@ const AdminDashboard = () => {
     const [kiosIncome, setKiosIncome] = useState("");
     const [losIncome, setLosIncome] = useState("");
     const [wasteIncome, setWasteIncome] = useState("");
+    const [items, setItems] = useState("");
 
-    const { income } = useSelector((state) => state.invoices);
+    const { income, invoices, isLoading } = useSelector((state) => state.invoices);
+
+    useEffect(() => {
+        dispatch(getInvoices({ limit: 10, q: "" }));
+    }, [dispatch]);
 
     useEffect(() => {
         dispatch(getIncome({ startDate, endDate }));
     }, [dispatch, startDate, endDate]);
+
+    useEffect(() => {
+        setItems(invoices && invoices.data);
+    }, [invoices]);
 
     useEffect(() => {
         income &&
@@ -87,9 +98,6 @@ const AdminDashboard = () => {
     }, [income]);
 
     const labels = month;
-
-    console.log(income)
-
     const data = {
         labels,
         datasets: [
@@ -115,11 +123,11 @@ const AdminDashboard = () => {
     };
 
     return (
-        <div className="flex-1 relative flex flex-col">
-            <section className="mb-8">
+        <div className="flex-1 relative flex flex-col gap-4">
+            <section className="mb-4">
                 <Heading text={"Dashboard"} variant={"text-xl"} />
             </section>
-            <section>
+            <section className="mb-8">
                 <div className="mb-4 flex flex-col sm:flex-row sm:justify-between items-end sm:items-center gap-2">
                     <section className="w-full sm:max-w-max flex justify-between items-center gap-1 border rounded text-xs">
                         <Input type={"date"} variant={"border-0 rounded-l"} onChange={(e) => setStartDate(e.target.value)} />
@@ -132,12 +140,59 @@ const AdminDashboard = () => {
                             handlePrint();
                         }}
                     >
-                        <Button type={"submit"} text={"Cetak Retribusi"} variant={"max-w-max bg-sky-400 hover:bg-sky-500 text-white"} />
+                        <Button type={"submit"} text={"Cetak Retribusi"} variant={"max-w-max bg-sky-400 hover:bg-sky-7000 text-white"} />
                     </form>
                 </div>
                 <div className="pl-2 lg:pl-4 border-l" ref={componentRef}>
                     <Bar plugins={[ChartDataLabels]} options={options} data={data} />
                 </div>
+            </section>
+            <section className="py-4 flex flex-col items-start justify-center gap-4 rounded">
+                <span className="font-semibold">Transaksi Terakhir</span>
+                {items && items.length <= 0 && (
+                    <span className="w-full h-32 flex justify-center items-center text-lg text-slate-500 font-semibold">
+                        Tidak ada transaksi akhir-akhir ini
+                    </span>
+                )}
+                {items &&
+                    items.map((item, index) => (
+                        <Link key={index + 1} to={`invoices/${item._id}`} className="w-full">
+                            <div className="p-4 w-full flex justify-around items-center gap-8 bg-white border rounded hover:shadow">
+                                <section className="flex-1 flex flex-col sm:flex-row sm:justify-around items-start sm:items-center gap-2 text-slate-800">
+                                    <Field
+                                        text={item.order_id}
+                                        variant={"w-32 text-xs font-bold"}
+                                    />
+                                    <Field text={item.name} variant={"w-32 font-bold"} />
+                                    <Field text={item.transaction_time} variant={"text-xs"} />
+                                </section>
+                                <section className="flex-1 flex flex-col sm:flex-row sm:justify-between items-end sm:items-center gap-4 sm:gap-2">
+                                    <Field
+                                        text={`Rp ${item.total_price}`}
+                                        variant={"w-20 font-semibold text-center sm:text-start"}
+                                    />
+                                    <Field
+                                        text={`${item.transaction_status === "settlement"
+                                            ? "Paid"
+                                            : "Pending"
+                                            }`}
+                                        variant={`py-1 px-2 w-[5rem] rounded-sm font-bold text-center ${item.transaction_status === "settlement"
+                                            ? "bg-green-100 text-green-500"
+                                            : "bg-orange-100 text-orange-500"
+                                            }`}
+                                    />
+                                </section>
+                            </div>
+                        </Link>
+                    ))
+                }
+                {
+                    (isLoading) && (
+                        <div className="absolute inset-0 flex justify-center items-center">
+                            <Spinner />
+                        </div>
+                    )
+                }
             </section>
         </div>
     );

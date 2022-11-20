@@ -109,7 +109,7 @@ const UpdateRetribution = () => {
     };
   });
 
-  if (isError?.status === 404) {
+  if (isError === "Data tidak ditemukan") {
     const randomString = RandomString(128);
     TabTitle(randomString);
 

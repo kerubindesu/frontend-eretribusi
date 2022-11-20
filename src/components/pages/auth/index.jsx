@@ -75,10 +75,10 @@ const Login = () => {
               </form>
               <div>
                 <span className="mr-2 text-xs text-slate-600 font-semibold">
-                  Masalah dengan akun?
+                  Masalah mengenai akun?
                 </span>
-                <span className="text-xs text-sky-500 font-semibold">
-                  Hubungi Admin atau Petugas!
+                <span className="text-xs text-orange-500 font-semibold">
+                  Hubungi Admin atau Petugas.
                 </span>
               </div>
             </section>

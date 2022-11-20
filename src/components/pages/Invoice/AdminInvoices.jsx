@@ -73,11 +73,11 @@ const AdminInvoices = () => {
           </span>
         }
       >
-        <section className="flex flex-col gap-2">
+        <section className="py-4 flex flex-col gap-2">
           {items &&
             items.map((item, index) => (
               <Link key={index + 1} to={`${item._id}`}>
-                <div className="p-4 w-full flex justify-around items-center gap-8 bg-white border rounded">
+                <div className="p-4 w-full flex justify-around items-center gap-8 bg-white border rounded hover:shadow">
                   <section className="flex-1 flex flex-col sm:flex-row sm:justify-around items-start sm:items-center gap-2 text-slate-800">
                     <Field
                       text={item.order_id}
@@ -96,9 +96,9 @@ const AdminInvoices = () => {
                         ? "Paid"
                         : "Pending"
                         }`}
-                      variant={`py-1 px-2 w-[5rem] border rounded-sm font-bold text-center ${item.transaction_status === "settlement"
-                        ? "bg-green-100 text-green-500 border-green-500"
-                        : "bg-orange-100 text-orange-500 border-orange-500"
+                      variant={`py-1 px-2 w-[5rem] rounded-sm font-bold text-center ${item.transaction_status === "settlement"
+                        ? "bg-green-100 text-green-500"
+                        : "bg-orange-100 text-orange-500"
                         }`}
                     />
                   </section>

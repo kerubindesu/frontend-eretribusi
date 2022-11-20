@@ -76,11 +76,10 @@ const InvoiceDetail = () => {
               <div className="flex gap-2">
                 <Heading text={document.title} variant={"text-xl"} />
                 <span
-                  className={`py-1 px-2 rounded font-semibold text-center ${
-                    invoice?.transaction_status !== "settlement"
-                      ? "bg-orange-100 text-orange-500"
-                      : "bg-green-100 text-green-500"
-                  }`}
+                  className={`py-1 px-2 rounded font-semibold text-center ${invoice?.transaction_status !== "settlement"
+                    ? "bg-orange-100 text-orange-500"
+                    : "bg-green-100 text-green-500"
+                    }`}
                 >
                   {invoice?.transaction_status !== "settlement"
                     ? "Pending"
@@ -135,21 +134,21 @@ const InvoiceDetail = () => {
             className="mt-8 p-4 border-2 border-dashed rounded relative text-slate-700"
             ref={componentRef}
           >
-            <div className="absolute inset-0 flex justify-center items-center">
+            <div className="absolute inset-0 flex flex-col justify-center items-center opacity-20">
               <Image
                 src={Logo}
                 alt={"logo"}
                 variant="max-w-[16rem] opacity-40"
               />
+              <span className="text-6xl text-slate-600 font-semibold">iRetribusi</span>
             </div>
             <div className="p-4 flex justify-between items-center font-bold">
               <span>{data.name}</span>
               <span
-                className={`py-1 px-2 rounded font-semibold text-center ${
-                  invoice.transaction_status !== "settlement"
-                    ? "bg-orange-100 text-orange-500"
-                    : "bg-green-100 text-green-500"
-                }`}
+                className={`py-1 px-2 rounded font-semibold text-center ${invoice.transaction_status !== "settlement"
+                  ? "bg-orange-100 text-orange-500"
+                  : "bg-green-100 text-green-500"
+                  }`}
               >
                 {invoice.transaction_status !== "settlement"
                   ? "Pending"

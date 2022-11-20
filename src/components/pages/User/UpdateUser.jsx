@@ -149,7 +149,7 @@ const UpdateUser = () => {
               />
               <FloatingLabel
                 type={"text"}
-                text={"Password Baru"}
+                text={"Password Baru (optional)"}
                 value={password}
                 htmlFor={"password"}
                 onChange={(e) => setPassword(e.target.value)}

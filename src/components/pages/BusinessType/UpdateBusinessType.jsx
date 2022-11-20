@@ -13,7 +13,7 @@ import {
 } from "../../../features/businessTypes/businessTypeActions";
 
 const UpdateBusinessType = () => {
-  TabTitle("Edit Kios/Los");
+  TabTitle("Edit Jenis Dagang");
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -49,7 +49,9 @@ const UpdateBusinessType = () => {
     );
   };
 
-  if (isError.status === 404) {
+  console.log(isError)
+
+  if (isError === "Data tidak ditemukan") {
     const randomString = RandomString(128);
     TabTitle(randomString);
 

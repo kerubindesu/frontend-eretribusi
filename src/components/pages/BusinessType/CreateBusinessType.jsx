@@ -9,7 +9,7 @@ import { createBusinessType } from "../../../features/businessTypes/businessType
 import { Spinner } from "flowbite-react";
 
 const CreateBusinessType = () => {
-  TabTitle("Buat Data Jenis Usaha");
+  TabTitle("Buat Data Jenis Dagang");
 
   const [name, setName] = useState("");
 

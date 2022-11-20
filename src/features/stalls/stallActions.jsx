@@ -27,7 +27,7 @@ export const getStall = createAsyncThunk(
 
       return response.data;
     } catch (err) {
-      return rejectWithValue(err.response);
+      return rejectWithValue(err.response.data.message);
     }
   }
 );
@@ -41,7 +41,7 @@ export const createStall = createAsyncThunk(
 
       return response.data;
     } catch (err) {
-      return rejectWithValue(err.response);
+      return rejectWithValue(err.response.data.message);
     }
   }
 );
@@ -55,7 +55,7 @@ export const updateStall = createAsyncThunk(
 
       return response.data;
     } catch (err) {
-      return rejectWithValue(err.response);
+      return rejectWithValue(err.response.data.message);
     }
   }
 );
@@ -68,7 +68,7 @@ export const deleteStall = createAsyncThunk(
 
       return response.data;
     } catch (err) {
-      return rejectWithValue(err.response);
+      return rejectWithValue(err.response.data.message);
     }
   }
 );

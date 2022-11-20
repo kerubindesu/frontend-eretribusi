@@ -28,7 +28,7 @@ const UpdateStall = () => {
 
   useEffect(() => {
     if (stall) {
-      setType(stall.type.toUpperCase());
+      setType(stall.type);
       setName(stall.name);
       setSize(stall.size);
     }
@@ -50,13 +50,14 @@ const UpdateStall = () => {
       })
     );
   };
+  console.log(type)
 
   const options = [
     { value: "kios", label: "KIOS" },
     { value: "los", label: "LOS" },
   ];
 
-  if (isError.status === 404) {
+  if (isError === "Data tidak ditemukan") {
     const randomString = RandomString(128);
     TabTitle(randomString);
 
@@ -103,14 +104,13 @@ const UpdateStall = () => {
                 }}
                 placeholder="Tipe retribusi..."
               />
-
               <div className="grid sm:grid-cols-2 gap-x-4">
                 <FloatingLabel
                   type={"text"}
                   id={"name"}
                   value={name}
                   htmlFor={"name"}
-                  text={"Nomor"}
+                  text={"Kode"}
                   onChange={(e) => setName(e.target.value)}
                 />
                 <FloatingLabel
@@ -141,7 +141,7 @@ const UpdateStall = () => {
               </div>
             </div>
           </form>
-        </div>
+        </div >
       </>
     );
   }

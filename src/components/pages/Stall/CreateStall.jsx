@@ -87,7 +87,7 @@ const CreateStall = () => {
                 id={"name"}
                 value={name}
                 htmlFor={"name"}
-                text={"Nomor"}
+                text={"Kode"}
                 onChange={(e) => setName(e.target.value)}
               />
               <FloatingLabel

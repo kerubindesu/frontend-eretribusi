@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateToggle } from "../../../features/toggle/toggleMenuSlice";
 import { CgMenu } from "react-icons/cg";
 import { AiOutlineLogout } from "react-icons/ai";
-import { FiUser } from "react-icons/fi";
 import { Image } from "../atoms";
 import { Logo } from "../../../assets/images";
 import Drawer from "./Drawer";
@@ -58,47 +57,36 @@ const Navbar = () => {
                   onClick={() => setDropdown(!dropdown)}
                   className="flex items-center justify-center text-slate-600 whitespace-nowrap cursor-pointer"
                 >
-                  <div className="h-8 w-8 rounded-full bg-slate-100 flex items-center justify-center">
+                  <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center">
                     {Array.from(`${userAuth.name}`)[0]}
                   </div>
                   <span className="sr-only">Dropdown logout</span>
                 </div>
                 <div
-                  className={`${
-                    dropdown ? "block" : "hidden"
-                  } absolute right-0 mt-2 w-56 origin-top-right rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
-                  role="menu"
-                  aria-orientation="vertical"
-                  aria-labelledby="menu-button"
-                  tabIndex="-1"
+                  className={`${dropdown ? "block" : "hidden"
+                    } mt-2 p-2 absolute right-0 w-56 flex flex-col gap-2 origin-top-right rounded-sm bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
                 >
-                  <div className="py-1" role="none">
-                    <div
-                      className="mb-1 mx-1 py-2 px-4 flex justify-start items-center gap-5 rounded bg-slate-100 box-border overflow-hidden whitespace-nowrap text-slate-800 text-sm"
-                      role="menuitem"
-                      tabIndex="-1"
-                      id="menu-item-0"
-                    >
-                      <FiUser />
-                      <span className="flex-1 box-border text-ellipsis overflow-hidden">
-                        {userAuth.name}
-                      </span>
+                  <div
+                    className="p-2 flex justify-start items-center gap-2 border rounded box-border shadow-md overflow-hidden whitespace-nowrap text-slate-800 text-sm"
+                  >
+                    <div className="h-8 w-8 rounded-full bg-gray-100 flex items-center justify-center">
+                      {Array.from(`${userAuth.name}`)[0]}
                     </div>
-                    <form onSubmit={handleSubmit}>
-                      <button
-                        type="submit"
-                        className="w-full px-4 py-2 text-left text-gray-700 flex gap-4 items-center hover:text-red-700 text-sm"
-                        role="menuitem"
-                        tabIndex="-1"
-                        id="menu-item-3"
-                      >
-                        <span className="border p-1 rounded shadow-sm">
-                          <AiOutlineLogout />
-                        </span>
-                        <span>Logout</span>
-                      </button>
-                    </form>
+                    <span className="box-border text-ellipsis overflow-hidden">
+                      {userAuth.name}
+                    </span>
                   </div>
+                  <form onSubmit={handleSubmit}>
+                    <button
+                      type="submit"
+                      className="w-full py-2 flex gap-2 items-center text-left text-sm text-black hover:text-gray-700"
+                    >
+                      <span className="h-8 w-8 rounded-md flex items-center justify-center bg-white border shadow-sm">
+                        <AiOutlineLogout />
+                      </span>
+                      <span>Logout</span>
+                    </button>
+                  </form>
                 </div>
               </>
             )}
